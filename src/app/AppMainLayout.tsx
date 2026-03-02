@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useCallback, useMemo, type ReactNode } from "react";
 import Sidebar from "../components/Sidebar";
 import OfficeView from "../components/OfficeView";
 import Dashboard from "../components/Dashboard";
@@ -19,10 +19,21 @@ import type {
   SubAgent,
   SubTask,
   Task,
+  WorkflowPackKey,
 } from "../types";
 import type { UpdateStatus } from "../api";
 import type { OAuthCallbackResult, RoomThemeMap, View } from "./types";
 import AppHeaderBar from "./AppHeaderBar";
+import {
+  buildOfficePackStarterAgents,
+  buildOfficePackPresentation,
+  getOfficePackRoomThemes,
+  listOfficePackOptions,
+  normalizeOfficeWorkflowPack,
+  resolveOfficePackSeedProvider,
+} from "./office-workflow-pack";
+import { resolvePackAgentViews, resolvePackDepartmentsForDisplay } from "./office-pack-display";
+import { applyOfficePackToTaskInput, filterTasksByOfficePack, type TaskCreateInput } from "./task-workflow-pack";
 
 interface AppMainLayoutLabels {
   uiLanguage: string;
@@ -95,6 +106,7 @@ interface AppMainLayoutProps {
     project_id?: string;
     project_path?: string;
     assigned_agent_id?: string;
+    workflow_pack_key?: WorkflowPackKey;
   }) => Promise<void>;
   onUpdateTask: (id: string, data: Partial<Task>) => Promise<void>;
   onDeleteTask: (id: string) => Promise<void>;
@@ -106,6 +118,8 @@ interface AppMainLayoutProps {
   onOpenTerminal: (taskId: string) => void;
   onOpenMeetingMinutes: (taskId: string) => void;
   onAgentsChange: () => void;
+  activeOfficeWorkflowPack: WorkflowPackKey;
+  onChangeOfficeWorkflowPack: (packKey: WorkflowPackKey) => void;
   onSaveSettings: (settings: CompanySettings) => Promise<void>;
   onRefreshCli: () => Promise<void>;
   onOauthResultClear: () => void;
@@ -116,6 +130,7 @@ interface AppMainLayoutProps {
   onOpenRoomManager: () => void;
   onDismissAutoUpdateNotice: () => Promise<void>;
   onDismissUpdate: () => void;
+  officePackBootstrappingLabel?: string | null;
   children?: ReactNode;
 }
 
@@ -164,6 +179,8 @@ export default function AppMainLayout({
   onOpenTerminal,
   onOpenMeetingMinutes,
   onAgentsChange,
+  activeOfficeWorkflowPack,
+  onChangeOfficeWorkflowPack,
   onSaveSettings,
   onRefreshCli,
   onOauthResultClear,
@@ -174,8 +191,147 @@ export default function AppMainLayout({
   onOpenRoomManager,
   onDismissAutoUpdateNotice,
   onDismissUpdate,
+  officePackBootstrappingLabel,
   children,
 }: AppMainLayoutProps) {
+  const uiLanguage =
+    labels.uiLanguage === "ko" || labels.uiLanguage === "ja" || labels.uiLanguage === "zh" ? labels.uiLanguage : "en";
+  const officePackKey = normalizeOfficeWorkflowPack(activeOfficeWorkflowPack);
+  const officePackOptions = useMemo(() => listOfficePackOptions(uiLanguage), [uiLanguage]);
+  const officePackLabel =
+    labels.uiLanguage === "ko"
+      ? "오피스 팩"
+      : labels.uiLanguage === "ja"
+        ? "オフィスパック"
+        : labels.uiLanguage === "zh"
+          ? "办公室包"
+          : "Office Pack";
+  const officePackBootstrappingMessage = useMemo(() => {
+    if (!officePackBootstrappingLabel) return null;
+    if (uiLanguage === "ko") return `${officePackBootstrappingLabel} 오피스 팩 배치중...`;
+    if (uiLanguage === "ja") return `${officePackBootstrappingLabel} オフィスパックを配置中...`;
+    if (uiLanguage === "zh") return `${officePackBootstrappingLabel} 办公室包部署中...`;
+    return `Deploying ${officePackBootstrappingLabel} office pack...`;
+  }, [officePackBootstrappingLabel, uiLanguage]);
+  const generatedOfficePresentation = useMemo(
+    () =>
+      buildOfficePackPresentation({
+        packKey: officePackKey,
+        locale: uiLanguage,
+        departments,
+        agents,
+        customRoomThemes,
+      }),
+    [officePackKey, uiLanguage, departments, agents, customRoomThemes],
+  );
+
+  const activePackProfile =
+    officePackKey === "development" ? null : (settings.officePackProfiles?.[officePackKey] ?? null);
+
+  const seededPackAgents = useMemo(() => {
+    if (officePackKey === "development") return [] as Agent[];
+    if (activePackProfile?.agents?.length) return activePackProfile.agents;
+    const drafts = buildOfficePackStarterAgents({
+      packKey: officePackKey,
+      departments: generatedOfficePresentation.departments,
+      targetCount: 8,
+      locale: uiLanguage,
+    });
+    const now = Date.now();
+    return drafts.map((draft, index) => ({
+      id: `${officePackKey}-seed-${index + 1}`,
+      name: draft.name,
+      name_ko: draft.name_ko,
+      name_ja: draft.name_ja,
+      name_zh: draft.name_zh,
+      department_id: draft.department_id,
+      role: draft.role,
+      acts_as_planning_leader: draft.acts_as_planning_leader,
+      cli_provider: resolveOfficePackSeedProvider({
+        packKey: officePackKey,
+        departmentId: draft.department_id,
+        role: draft.role,
+        seedIndex: index + 1,
+        seedOrderInDepartment: draft.seed_order_in_department,
+      }),
+      avatar_emoji: draft.avatar_emoji,
+      sprite_number: draft.sprite_number,
+      personality: draft.personality,
+      status: "idle" as const,
+      current_task_id: null,
+      stats_tasks_done: 0,
+      stats_xp: 0,
+      created_at: now,
+    }));
+  }, [activePackProfile?.agents, generatedOfficePresentation.departments, officePackKey, uiLanguage]);
+
+  const packProfileDepartments =
+    officePackKey === "development"
+      ? null
+      : (activePackProfile?.departments ?? generatedOfficePresentation.departments);
+  const packProfileAgents = officePackKey === "development" ? null : (activePackProfile?.agents ?? seededPackAgents);
+
+  const displayDepartments = useMemo(
+    () =>
+      resolvePackDepartmentsForDisplay({
+        packKey: officePackKey,
+        globalDepartments: departments,
+        packDepartments: packProfileDepartments,
+      }),
+    [departments, officePackKey, packProfileDepartments],
+  );
+
+  const { scopedAgents: officeScopedAgents, mergedAgents: displayAgents } = useMemo(
+    () =>
+      resolvePackAgentViews({
+        packKey: officePackKey,
+        globalAgents: agents,
+        packAgents: packProfileAgents,
+      }),
+    [agents, officePackKey, packProfileAgents],
+  );
+
+  const isHydratedOfficePack = useMemo(() => {
+    if (officePackKey === "development") return false;
+    const hydrated = settings.officePackHydratedPacks;
+    if (!Array.isArray(hydrated)) return false;
+    return hydrated.map((value) => String(value ?? "").trim()).includes(officePackKey);
+  }, [officePackKey, settings.officePackHydratedPacks]);
+
+  const managerDepartments =
+    officePackKey === "development"
+      ? departments
+      : isHydratedOfficePack
+        ? displayDepartments
+        : (activePackProfile?.departments ?? generatedOfficePresentation.departments);
+
+  const managerAgents =
+    officePackKey === "development"
+      ? agents
+      : isHydratedOfficePack
+        ? officeScopedAgents
+        : (activePackProfile?.agents ?? seededPackAgents);
+
+  const officePresentation = useMemo(() => {
+    if (officePackKey === "development") return generatedOfficePresentation;
+    return {
+      departments: displayDepartments,
+      agents: officeScopedAgents,
+      roomThemes: {
+        ...customRoomThemes,
+        ...getOfficePackRoomThemes(officePackKey),
+      },
+    };
+  }, [customRoomThemes, displayDepartments, generatedOfficePresentation, officePackKey, officeScopedAgents]);
+
+  const tasksForActivePack = useMemo(() => filterTasksByOfficePack(tasks, officePackKey), [tasks, officePackKey]);
+  const handleCreateTaskForActivePack = useCallback(
+    async (input: TaskCreateInput) => {
+      await onCreateTask(applyOfficePackToTaskInput(input, officePackKey));
+    },
+    [onCreateTask, officePackKey],
+  );
+
   return (
     <I18nProvider language={labels.uiLanguage}>
       <div className="app-shell flex h-[100dvh] min-h-[100dvh] overflow-hidden">
@@ -183,8 +339,8 @@ export default function AppMainLayout({
           <Sidebar
             currentView={view}
             onChangeView={setView}
-            departments={departments}
-            agents={agents}
+            departments={officePresentation.departments}
+            agents={officePresentation.agents}
             settings={settings}
             connected={connected}
           />
@@ -208,8 +364,8 @@ export default function AppMainLayout({
               setView(nextView);
               setMobileNavOpen(false);
             }}
-            departments={departments}
-            agents={agents}
+            departments={officePresentation.departments}
+            agents={officePresentation.agents}
             settings={settings}
             connected={connected}
           />
@@ -217,6 +373,7 @@ export default function AppMainLayout({
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden min-w-0">
           <AppHeaderBar
+            currentView={view}
             connected={connected}
             viewTitle={labels.viewTitle}
             tasksPrimaryLabel={labels.tasksPrimaryLabel}
@@ -236,10 +393,26 @@ export default function AppMainLayout({
             onOpenReportHistory={onOpenReportHistory}
             onOpenAnnouncement={onOpenAnnouncement}
             onOpenRoomManager={onOpenRoomManager}
+            officePackControl={
+              view === "office" || view === "agents" || view === "tasks"
+                ? {
+                    label: officePackLabel,
+                    value: officePackKey,
+                    options: officePackOptions,
+                    onChange: onChangeOfficeWorkflowPack,
+                  }
+                : null
+            }
             onToggleTheme={toggleTheme}
             onToggleMobileHeaderMenu={() => setMobileHeaderMenuOpen(!mobileHeaderMenuOpen)}
             onCloseMobileHeaderMenu={() => setMobileHeaderMenuOpen(false)}
           />
+
+          {officePackBootstrappingMessage && (
+            <div className="border-b border-emerald-500/30 bg-emerald-500/10 px-3 py-2.5 sm:px-4 lg:px-6">
+              <div className="text-xs font-medium text-emerald-100">{officePackBootstrappingMessage}</div>
+            </div>
+          )}
 
           {labels.autoUpdateNoticeVisible && (
             <div className={labels.autoUpdateNoticeContainerClass}>
@@ -297,8 +470,8 @@ export default function AppMainLayout({
           <div className="p-3 sm:p-4 lg:p-6">
             {view === "office" && (
               <OfficeView
-                departments={departments}
-                agents={agents}
+                departments={officePresentation.departments}
+                agents={officePresentation.agents}
                 tasks={tasks}
                 subAgents={subAgents}
                 meetingPresence={meetingPresence}
@@ -309,7 +482,7 @@ export default function AppMainLayout({
                 ceoOfficeCalls={ceoOfficeCalls}
                 onCeoOfficeCallProcessed={onCeoOfficeCallProcessed}
                 onOpenActiveMeetingMinutes={onOpenActiveMeetingMinutes}
-                customDeptThemes={customRoomThemes}
+                customDeptThemes={officePresentation.roomThemes}
                 themeHighlightTargetId={activeRoomThemeTargetId}
                 onSelectAgent={onSelectAgent}
                 onSelectDepartment={onSelectDepartment}
@@ -328,11 +501,11 @@ export default function AppMainLayout({
 
             {view === "tasks" && (
               <TaskBoard
-                tasks={tasks}
-                agents={agents}
-                departments={departments}
+                tasks={tasksForActivePack}
+                agents={displayAgents}
+                departments={displayDepartments}
                 subtasks={subtasks}
-                onCreateTask={onCreateTask}
+                onCreateTask={handleCreateTaskForActivePack}
                 onUpdateTask={onUpdateTask}
                 onDeleteTask={onDeleteTask}
                 onAssignTask={onAssignTask}
@@ -346,7 +519,23 @@ export default function AppMainLayout({
             )}
 
             {view === "agents" && (
-              <AgentManager agents={agents} departments={departments} onAgentsChange={onAgentsChange} />
+              <AgentManager
+                agents={managerAgents}
+                departments={managerDepartments}
+                onAgentsChange={onAgentsChange}
+                activeOfficeWorkflowPack={officePackKey}
+                dbBackedOfficePack={isHydratedOfficePack}
+                onSaveOfficePackProfile={async (packKey, profile) => {
+                  if (packKey === "development") return;
+                  await onSaveSettings({
+                    ...settings,
+                    officePackProfiles: {
+                      ...(settings.officePackProfiles ?? {}),
+                      [packKey]: profile,
+                    },
+                  });
+                }}
+              />
             )}
 
             {view === "skills" && <SkillsLibrary agents={agents} />}

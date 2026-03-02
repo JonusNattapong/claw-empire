@@ -8,7 +8,7 @@ import ReportHistory from "../components/ReportHistory";
 import AgentStatusPanel from "../components/AgentStatusPanel";
 import OfficeRoomManager from "../components/OfficeRoomManager";
 import type { DecisionInboxItem } from "../components/chat/decision-inbox";
-import type { Agent, Department, Message, RoomTheme, SubAgent, SubTask, Task } from "../types";
+import type { Agent, Department, Message, RoomTheme, SubAgent, SubTask, Task, WorkflowPackKey } from "../types";
 import type { UiLanguage } from "../i18n";
 import type { ProjectMetaPayload, RoomThemeMap, TaskPanelTab } from "./types";
 
@@ -49,6 +49,7 @@ interface AppOverlaysProps {
   ) => Promise<void>;
   onOpenDecisionChat: (agentId: string) => void;
   selectedAgent: Agent | null;
+  activeOfficeWorkflowPack: WorkflowPackKey;
   departments: Department[];
   tasks: Task[];
   subAgents: SubAgent[];
@@ -95,6 +96,7 @@ export default function AppOverlays({
   onReplyDecisionOption,
   onOpenDecisionChat,
   selectedAgent,
+  activeOfficeWorkflowPack,
   departments,
   tasks,
   subAgents,
@@ -164,6 +166,7 @@ export default function AppOverlays({
           onAssignTask={onAssignTaskFromAgentDetail}
           onOpenTerminal={onOpenTerminalFromAgentDetail}
           onAgentUpdated={onAgentUpdated}
+          activeOfficeWorkflowPack={activeOfficeWorkflowPack}
         />
       )}
 
@@ -183,10 +186,23 @@ export default function AppOverlays({
       )}
 
       {taskReport && (
-        <TaskReportPopup report={taskReport} agents={agents} uiLanguage={uiLanguage} onClose={onCloseTaskReport} />
+        <TaskReportPopup
+          report={taskReport}
+          agents={agents}
+          departments={departments}
+          uiLanguage={uiLanguage}
+          onClose={onCloseTaskReport}
+        />
       )}
 
-      {showReportHistory && <ReportHistory agents={agents} uiLanguage={uiLanguage} onClose={onCloseReportHistory} />}
+      {showReportHistory && (
+        <ReportHistory
+          agents={agents}
+          departments={departments}
+          uiLanguage={uiLanguage}
+          onClose={onCloseReportHistory}
+        />
+      )}
 
       {showAgentStatus && <AgentStatusPanel agents={agents} uiLanguage={uiLanguage} onClose={onCloseAgentStatus} />}
 

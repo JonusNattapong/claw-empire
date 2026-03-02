@@ -133,8 +133,9 @@ export default function GitHubDeviceConnect({ reason, onConnected, onCancel }: G
                     en: "Reconnect GitHub (repo scope)",
                     ja: "GitHub 再接続 (repo 権限)",
                     zh: "重新连接 GitHub (repo 权限)",
-                    th: "เชื่อมต่อ GitHub ใหม่ (scope repo)",
-                  })}}
+                    th: "เชื่อมต่อ GitHub ใหม่ [scope repo]",
+                  })
+            }
           </button>
           <button
             type="button"
