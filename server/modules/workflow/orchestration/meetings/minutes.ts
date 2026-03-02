@@ -308,6 +308,7 @@ export function createMeetingMinutesTools(deps: MeetingMinutesDeps) {
             ["Finalized with conditional approval and documented residual risks."],
             ["残余リスクを文書化した条件付き最終承認で締結します。"],
             ["以记录剩余风险的条件性最终批准完成收口。"],
+            ["สิ้นสุดด้วยการอนุมัติเบื้องต้นและการบันทึกความเสี่ยงที่เหลืออยู่"],
           ),
           lang as Lang,
         )
@@ -317,6 +318,7 @@ export function createMeetingMinutesTools(deps: MeetingMinutesDeps) {
             ["Final approval completed based on full leader alignment and merge readiness."],
             ["全リーダー承認に基づき最終承認とマージ準備を完了しました。"],
             ["已基于全体负责人一致意见完成最终批准与合并准备。"],
+            ["ดำเนินการอนุมัติสุดท้ายและเตรียมการผสานเสร็จสิ้นตามการเห็นชอบของหัวหน้าทุกคน"],
           ),
           lang as Lang,
         );

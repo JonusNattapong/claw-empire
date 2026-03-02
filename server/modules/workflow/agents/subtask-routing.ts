@@ -347,6 +347,7 @@ export function createSubtaskRoutingTools(deps: SubtaskRoutingDeps) {
               [`Waiting for ${targetDeptName} collaboration`],
               [`${targetDeptName}の協業待ち`],
               [`等待${targetDeptName}协作`],
+              [`รอการทำงานร่วมกับ${targetDeptName}`],
             ),
             lang,
           );
@@ -387,6 +388,7 @@ export function createSubtaskRoutingTools(deps: SubtaskRoutingDeps) {
                 `'${task.title}' のサブタスク配分を企画リーダーが再判定し、${updated}件を再配置しました。（${summaryText}）`,
               ],
               [`规划负责人已重新判定'${task.title}'的子任务分配，并重分配了${updated}项。（${summaryText}）`],
+              [`หัวหน้าวางแผนได้ตรวจสอบการจัดสรรงานย่อย '${task.title}' ใหม่และจัดสรรงานย่อย ${updated} รายการใหม่ (${summaryText})`],
             ),
             lang,
           ),

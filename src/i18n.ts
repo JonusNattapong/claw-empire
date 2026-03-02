@@ -43,27 +43,32 @@ export function localeName(
 }
 
 export function detectBrowserLanguage(): UiLanguage {
-  if (typeof window === "undefined") return "en";
-  const candidates = [...(window.navigator.languages ?? []), window.navigator.language];
-  for (const lang of candidates) {
-    const parsed = parseLanguage(lang);
-    if (parsed) return parsed;
+  if (typeof globalThis !== "undefined" && (globalThis as any).window) {
+    const window = (globalThis as any).window;
+    const candidates = [...(window.navigator.languages ?? []), window.navigator.language];
+    for (const lang of candidates) {
+      const parsed = parseLanguage(lang);
+      if (parsed) return parsed;
+    }
   }
   return "en";
 }
 
 function detectRuntimeLanguage(): UiLanguage {
-  if (typeof window === "undefined") return "en";
-  let storedLanguage: string | null = null;
-  try {
-    const storage = window.localStorage as { getItem?: (key: string) => string | null } | undefined;
-    if (storage && typeof storage.getItem === "function") {
-      storedLanguage = storage.getItem(LANGUAGE_STORAGE_KEY);
+  if (typeof globalThis !== "undefined" && (globalThis as any).window) {
+    const window = (globalThis as any).window;
+    let storedLanguage: string | null = null;
+    try {
+      const storage = window.localStorage as { getItem?: (key: string) => string | null } | undefined;
+      if (storage && typeof storage.getItem === "function") {
+        storedLanguage = storage.getItem(LANGUAGE_STORAGE_KEY);
+      }
+    } catch {
+      storedLanguage = null;
     }
-  } catch {
-    storedLanguage = null;
+    return parseLanguage(storedLanguage) ?? detectBrowserLanguage();
   }
-  return parseLanguage(storedLanguage) ?? detectBrowserLanguage();
+  return "en";
 }
 
 export function localeFromLanguage(lang: UiLanguage): string {
@@ -145,15 +150,16 @@ export function useI18n(languageOverride?: string | null): I18nContextValue {
   const [runtimeLanguage, setRuntimeLanguage] = useState<UiLanguage>(() => detectRuntimeLanguage());
 
   useEffect(() => {
-    if (context.__fromProvider || typeof window === "undefined") return;
+    if (context.__fromProvider || typeof globalThis === "undefined" || !(globalThis as any).window) return;
+    const window = (globalThis as any).window;
     const sync = () => {
       setRuntimeLanguage(detectRuntimeLanguage());
     };
     window.addEventListener("storage", sync);
-    window.addEventListener("climpire-language-change", sync as EventListener);
+    window.addEventListener("climpire-language-change", sync);
     return () => {
       window.removeEventListener("storage", sync);
-      window.removeEventListener("climpire-language-change", sync as EventListener);
+      window.removeEventListener("climpire-language-change", sync);
     };
   }, [context.__fromProvider]);
 

@@ -159,12 +159,14 @@ export function createProjectAndTimeoutDecisionItems(
         `Selection progress: ${selectedCount}/${reviewTaskChoices.length}`,
         `選択進捗: ${selectedCount}/${reviewTaskChoices.length}`,
         `选择进度: ${selectedCount}/${reviewTaskChoices.length}`,
+        "",
       );
       const continueExistingLabel = t(
         "기존 작업 이어서 진행",
         "Continue Existing Work",
         "既存作業を継続",
         "继续现有工作",
+        "",
       );
       const pendingList =
         pendingChoices.length > 0
@@ -179,6 +181,7 @@ export function createProjectAndTimeoutDecisionItems(
               "All active items are selected.",
               "すべてのアクティブ項目の選択が完了しました。",
               "所有活跃项已完成选择。",
+              "",
             );
       const summary =
         pendingChoices.length > 0
@@ -187,6 +190,7 @@ export function createProjectAndTimeoutDecisionItems(
               `Project '${projectName}' has all ${activeTotal} active items in Review.\nSelect the ${decisionTargetTotal} target item(s) first.\n${taskProgressLine}\n${pendingList}`,
               `プロジェクト'${projectName}'のアクティブ項目${activeTotal}件はすべてReview状態です。\n代表者の選択対象${decisionTargetTotal}件を先に選択してください。\n${taskProgressLine}\n${pendingList}`,
               `项目'${projectName}'的 ${activeTotal} 个活跃项已全部进入 Review。\n请先选择代表决策目标 ${decisionTargetTotal} 项。\n${taskProgressLine}\n${pendingList}`,
+              "",
             )
           : requiresRepresentativeSelection
             ? t(
@@ -194,12 +198,14 @@ export function createProjectAndTimeoutDecisionItems(
                 `Project '${projectName}' has all ${activeTotal} active items in Review.\nSelection for ${decisionTargetTotal} target item(s) is complete.\nChoose the next step from the options below.`,
                 `プロジェクト'${projectName}'のアクティブ項目${activeTotal}件はすべてReview状態です。\n代表者の選択対象${decisionTargetTotal}件の選択が完了しました。\n以下の選択肢から次のステップを選んでください。`,
                 `项目'${projectName}'的 ${activeTotal} 个活跃项已全部进入 Review。\n代表决策目标 ${decisionTargetTotal} 项已选择完成。\n请从下方选项中选择下一步。`,
+                "",
               )
             : t(
                 `프로젝트 '${projectName}'의 활성 항목 ${activeTotal}건이 모두 Review 상태입니다.\n대표 선택 단계는 필요하지 않습니다.\n아래 선택지에서 진행 방식을 선택해 주세요.`,
                 `Project '${projectName}' has all ${activeTotal} active items in Review.\nA representative pick step is not required.\nChoose how to proceed from the options below.`,
                 `プロジェクト'${projectName}'のアクティブ項目${activeTotal}件はすべてReview状態です。\n代表選択ステップは不要です。\n以下の選択肢から進行方法を選択してください。`,
                 `项目'${projectName}'的 ${activeTotal} 个活跃项已全部进入 Review。\n无需代表选择步骤。\n请从下方选项中选择推进方式。`,
+                "",
               );
       const readyOptions =
         pendingChoices.length > 0
@@ -215,24 +221,25 @@ export function createProjectAndTimeoutDecisionItems(
                         `Select Item: ${task.title}`,
                         `項目選択: ${task.title}`,
                         `选择项: ${task.title}`,
+                        "",
                       ),
               })),
               {
                 number: pendingChoices.length + 1,
                 action: "add_followup_request",
-                label: t("추가요청 입력", "Add Follow-up Request", "追加要請を入力", "输入追加请求"),
+                label: t("추가요청 입력", "Add Follow-up Request", "追加要請を入力", "输入追加请求", ""),
               },
             ]
           : [
               {
                 number: 1,
                 action: "start_project_review",
-                label: t("팀장 회의 진행", "Start Team-Lead Meeting", "チームリーダー会議を進行", "启动组长评审会议"),
+                label: t("팀장 회의 진행", "Start Team-Lead Meeting", "チームリーダー会議を進行", "启动组长评审会议", ""),
               },
               {
                 number: 2,
                 action: "add_followup_request",
-                label: t("추가요청 입력", "Add Follow-up Request", "追加要請を入力", "输入追加请求"),
+                label: t("추가요청 입력", "Add Follow-up Request", "追加要請を入力", "输入追加请求", ""),
               },
             ];
 
@@ -264,6 +271,7 @@ export function createProjectAndTimeoutDecisionItems(
           `Project '${projectName}' has all ${activeTotal} active items in Review.\nPlanning lead is consolidating opinions...\nRepresentative options and meeting action will appear after consolidation.`,
           `プロジェクト'${projectName}'のアクティブ項目${activeTotal}件はすべてReview状態です。\n企画リードが意見を集約中...\n集約完了後に代表選択肢と会議進行選択肢が表示されます。`,
           `项目'${projectName}'的 ${activeTotal} 个活跃项已全部进入 Review。\n规划负责人正在汇总意见...\n汇总完成后将显示代表选择项与会议启动选项。`,
+          "",
         );
         out.push({
           id: `project-review-ready:${row.project_id}`,
@@ -290,12 +298,14 @@ export function createProjectAndTimeoutDecisionItems(
             "Planning consolidation delayed - proceeding with baseline options",
             "企画リード集約遅延 - 基本選択肢で進行",
             "规划汇总延迟 - 以基础选项继续",
+            "",
           )
         : t(
             "기획팀장 의견 취합 완료",
             "Planning consolidation complete",
             "企画リード意見集約完了",
             "规划负责人意见汇总完成",
+            "",
           );
       const plannerSummary = useCollectingFallback
         ? ""
@@ -308,6 +318,7 @@ export function createProjectAndTimeoutDecisionItems(
             `Available options now:\n${optionGuide}`,
             `現在選択可能な項目:\n${optionGuide}`,
             `当前可选项:\n${optionGuide}`,
+            "",
           )
         : "";
       const combinedSummaryBase = plannerSummary
@@ -399,12 +410,12 @@ export function createProjectAndTimeoutDecisionItems(
         {
           number: 1,
           action: "resume_timeout_task",
-          label: t("이어서 진행 (재개)", "Resume Task", "続行する（再開）", "继续执行（恢复）"),
+          label: t("이어서 진행 (재개)", "Resume Task", "続行する（再開）", "继续执行（恢复）", "ทำต่อ (เริ่มใหม่)"),
         },
         {
           number: 2,
           action: "keep_inbox",
-          label: t("Inbox 유지", "Keep in Inbox", "Inboxで保留", "保留在 Inbox"),
+          label: t("Inbox 유지", "Keep in Inbox", "Inboxで保留", "保留在 Inbox", "คงไว้ใน Inbox"),
         },
       ],
     }));

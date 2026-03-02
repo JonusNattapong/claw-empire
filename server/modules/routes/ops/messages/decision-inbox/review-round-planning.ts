@@ -44,6 +44,7 @@ export function createReviewRoundPlanningHelpers(deps: ReviewRoundPlanningDeps):
               ["- No round opinions to consolidate."],
               ["- 集約対象のラウンド意見がありません。"],
               ["- 暂无可汇总的轮次意见。"],
+              ["- ไม่มีความคิดเห็นรอบที่จะรวบรวม"],
             ),
             lang,
           );
@@ -60,6 +61,9 @@ export function createReviewRoundPlanningHelpers(deps: ReviewRoundPlanningDeps):
         ],
         [
           `规划负责人已先行汇总第 ${reviewRound} 轮意见。\n任务：'${taskTitle}'\n${projectName ? `项目：'${projectName}'\n` : ""}请先选择优先级最高的补充整改项，必要时再补充追加意见。\n\n候选选项：\n${optionBlock}`,
+        ],
+        [
+          `หัวหน้าวางแผนได้รวบรวมความคิดเห็นรอบ ${reviewRound} ล่วงหน้า\nงาน: '${taskTitle}'\n${projectName ? `โปรเจกต์: '${projectName}'\n` : ""}เลือกรายการแก้ไขที่มีความสำคัญสูงสุดก่อน และเพิ่มความคิดเห็นเพิ่มเติมเฉพาะเมื่อจำเป็น\n\nตัวเลือกผู้สมัคร:\n${optionBlock}`,
         ],
       ),
       lang,
@@ -110,7 +114,7 @@ export function createReviewRoundPlanningHelpers(deps: ReviewRoundPlanningDeps):
             input.optionNotes.length > 0
               ? input.optionNotes.map((note, idx) => `${idx + 1}) ${clip(note, 320)}`).join("\n")
               : pickL(
-                  l(["- 라운드 의견 없음"], ["- No round opinions"], ["- ラウンド意見なし"], ["- 无轮次意见"]),
+                  l(["- 라운드 의견 없음"], ["- No round opinions"], ["- ラウンド意見なし"], ["- 无轮次意见"], ["- ไม่มีความคิดเห็นรอบ"]),
                   input.lang,
                 );
           const prompt = [
@@ -178,8 +182,9 @@ export function createReviewRoundPlanningHelpers(deps: ReviewRoundPlanningDeps):
               l(
                 [`라운드 ${input.reviewRound} 기획팀장 취합\n${plannerSummary}`],
                 [`Round ${input.reviewRound} planning consolidation\n${plannerSummary}`],
-                [`ラウンド${input.reviewRound} 企画リード集約\n${plannerSummary}`],
+                [`라운드${input.reviewRound} 企画リード集約\n${plannerSummary}`],
                 [`第 ${input.reviewRound} 轮规划负责人汇总\n${plannerSummary}`],
+                [`รอบ ${input.reviewRound} การรวบรวมโดยหัวหน้าวางแผน\n${plannerSummary}`],
               ),
               input.lang,
             ),
@@ -194,6 +199,7 @@ export function createReviewRoundPlanningHelpers(deps: ReviewRoundPlanningDeps):
             ["Review-round planning consolidation is temporarily delayed. Auto retry in progress."],
             ["レビューラウンド企画リード集約が一時遅延しました。自動再試行中です。"],
             ["评审轮次规划汇总暂时延迟，正在自动重试。"],
+            ["การรวบรวมการวางแผนรอบตรวจสอบล่าช้าชั่วคราว กำลังลองใหม่อัตโนมัติ"],
           ),
           input.lang,
         );

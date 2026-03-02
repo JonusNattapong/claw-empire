@@ -280,6 +280,7 @@ export function createReplyCoreTools(deps: CreateReplyCoreToolsDeps) {
         en: "The requested operation was blocked by a file-access permission. Please check the project directory settings.",
         ja: "ファイルアクセス権限により操作がブロックされました。プロジェクトディレクトリ設定を確認してください。",
         zh: "操作因文件访问权限被阻止，请检查项目目录设置。",
+        th: "การดำเนินการถูกบล็อกโดยสิทธิ์การเข้าถึงไฟล์ กรุณาตรวจสอบการตั้งค่าไดเรกทอรีโปรเจกต์",
       });
     }
     if (kind === "stale_file") {
@@ -288,6 +289,7 @@ export function createReplyCoreTools(deps: CreateReplyCoreToolsDeps) {
         en: "The file changed after it was read, so the operation was stopped. Please re-read the file and retry.",
         ja: "読み取り後にファイルが変更されたため、処理が停止しました。再読込して再試行してください。",
         zh: "文件在读取后被修改，操作已中止。请重新读取该文件后再试。",
+        th: "ไฟล์ถูกเปลี่ยนแปลงหลังจากอ่านแล้ว จึงหยุดการดำเนินการ กรุณาอ่านไฟล์ใหม่และลองใหม่",
       });
     }
     if (kind === "tool_calls_only") {
@@ -296,6 +298,7 @@ export function createReplyCoreTools(deps: CreateReplyCoreToolsDeps) {
         en: "The run ended at tool-calls without producing a final reply. Please retry.",
         ja: "ツール呼び出し段階で終了し、最終回答が生成されませんでした。再試行してください。",
         zh: "执行在工具调用阶段结束，未生成最终回复。请重试。",
+        th: "การทำงานสิ้นสุดที่การเรียกใช้เครื่องมือโดยไม่ได้สร้างคำตอบสุดท้าย กรุณาลองใหม่",
       });
     }
     if (kind === "timeout") {
@@ -304,6 +307,7 @@ export function createReplyCoreTools(deps: CreateReplyCoreToolsDeps) {
         en: "Response generation timed out, so the run was stopped. Please try again shortly.",
         ja: "応答生成がタイムアウトしたため処理を停止しました。しばらくして再試行してください。",
         zh: "回复生成超时，任务已中止。请稍后重试。",
+        th: "การสร้างคำตอบหมดเวลา จึงหยุดการทำงาน กรุณาลองใหม่อีกครั้ง",
       });
     }
     const suffix = detail ? ` (${detail})` : "";
@@ -335,26 +339,6 @@ export function createReplyCoreTools(deps: CreateReplyCoreToolsDeps) {
       detectLang(cleaned) === "en" &&
       cleaned.length > 20
     ) {
-      return fallbackTurnReply(kind, lang, agent);
-    }
-    return cleaned;
-  }
-
-  function chooseSafeReply(run: OneShotRunResult, lang: string, kind: ReplyKind, agent?: AgentRow): string {
-    const maxReplyChars = kind === "direct" ? 12000 : 2000;
-    const rawText = run.text || "";
-    const failureKind = detectRunFailure(rawText, run.error);
-    if (failureKind) {
-      const detail = failureKind === "generic" ? extractRunFailureDetail(rawText, run.error) : "";
-      return buildRunFailureReply(failureKind, lang, agent, detail);
-    }
-    const cleaned = normalizeConversationReply(rawText, maxReplyChars, { maxSentences: 0 });
-    if (!cleaned) return fallbackTurnReply(kind, lang, agent);
-    if (/timeout after|CLI 응답 생성에 실패|response failed|one-shot-error/i.test(cleaned)) {
-      return fallbackTurnReply(kind, lang, agent);
-    }
-    if (isInternalWorkNarration(cleaned)) return fallbackTurnReply(kind, lang, agent);
-    if ((lang === "ko" || lang === "ja" || lang === "zh") && detectLang(cleaned) === "en" && cleaned.length > 20) {
       return fallbackTurnReply(kind, lang, agent);
     }
     return cleaned;

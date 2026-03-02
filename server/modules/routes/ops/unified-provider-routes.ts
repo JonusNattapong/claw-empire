@@ -44,7 +44,7 @@ export function registerUnifiedProviderRoutes(ctx: RuntimeContext): void {
       // Handle both string and string[] for model parameter
       let modelStr: string;
       if (Array.isArray(model)) {
-        modelStr = model[0] || '';
+        modelStr = (model[0] as string) || '';
       } else if (typeof model === 'string') {
         modelStr = model;
       } else {
@@ -75,7 +75,7 @@ export function registerUnifiedProviderRoutes(ctx: RuntimeContext): void {
       // Handle both string and string[] for taskType parameter
       let taskTypeStr: string;
       if (Array.isArray(taskType)) {
-        taskTypeStr = taskType[0] || 'general';
+        taskTypeStr = (taskType[0] as string) || 'general';
       } else if (typeof taskType === 'string') {
         taskTypeStr = taskType;
       } else {

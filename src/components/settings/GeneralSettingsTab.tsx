@@ -51,12 +51,12 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
         style={{ background: "var(--th-card-bg)", border: "1px solid var(--th-card-border)" }}
       >
         <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--th-text-primary)" }}>
-          {t({ ko: "회사 정보", en: "Company", ja: "会社情報", zh: "公司信息" })}
+          {t({ ko: "회사 정보", en: "Company", ja: "会社情報", zh: "公司信息", th: "ข้อมูลบริษัท" })}
         </h3>
 
         <div>
           <label className="block text-xs mb-1" style={{ color: "var(--th-text-secondary)" }}>
-            {t({ ko: "회사명", en: "Company Name", ja: "会社名", zh: "公司名称" })}
+            {t({ ko: "회사명", en: "Company Name", ja: "会社名", zh: "公司名称", th: "ชื่อบริษัท" })}
           </label>
           <input
             type="text"
@@ -73,7 +73,7 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
 
         <div>
           <label className="block text-xs mb-1" style={{ color: "var(--th-text-secondary)" }}>
-            {t({ ko: "CEO 이름", en: "CEO Name", ja: "CEO 名", zh: "CEO 名称" })}
+            {t({ ko: "CEO 이름", en: "CEO Name", ja: "CEO 名", zh: "CEO 名称", th: "ชื่อ CEO" })}
           </label>
           <input
             type="text"
@@ -90,20 +90,21 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
 
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <ToggleSettingCard
-            label={t({ ko: "자동 배정", en: "Auto Assign", ja: "自動割り当て", zh: "自动分配" })}
+            label={t({ ko: "자동 배정", en: "Auto Assign", ja: "自動割り当て", zh: "自动分配", th: "กำหนดอัตโนมัติ" })}
             checked={form.autoAssign}
             onToggle={() => setForm({ ...form, autoAssign: !form.autoAssign })}
           />
 
           <ToggleSettingCard
-            label={t({ ko: "YOLO 모드", en: "YOLO Mode", ja: "YOLO モード", zh: "YOLO 模式" })}
+            label={t({ ko: "YOLO 모드", en: "YOLO Mode", ja: "YOLO モード", zh: "YOLO 模式", th: "โหมด YOLO" })}
             checked={form.yoloMode === true}
             onToggle={() => setForm({ ...form, yoloMode: !(form.yoloMode === true) })}
             title={t({
               ko: "켜면 기획팀장이 의사결정 단계를 자동으로 분석하고 다음 단계를 진행합니다.",
               en: "When enabled, the planning lead auto-analyzes decision steps and proceeds automatically.",
               ja: "有効にすると、企画リードが意思決定段階を自動分析して次段階へ進めます。",
-              zh: "启用后，规划负责人会自动分析决策步骤并推进到下一阶段。",
+              zh: "启用后，策划负责人会自动分析决策步骤并继续下一步。",
+              th: "เมื่อเปิดใช้งาน หัวหน้าวางแผนจะวิเคราะห์ขั้นตอนการตัดสินใจโดยอัตโนมัติและดำเนินการต่อ",
             })}
           />
 
@@ -113,6 +114,7 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
               en: "Auto Update (Global)",
               ja: "Auto Update（全体）",
               zh: "自动更新（全局）",
+              th: "อัปเดตอัตโนมัติ (ทั่วทั้งระบบ)",
             })}
             checked={form.autoUpdateEnabled}
             onToggle={() => setForm({ ...form, autoUpdateEnabled: !form.autoUpdateEnabled })}
@@ -121,18 +123,20 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
               en: "Enable or disable auto-update loop for the whole server.",
               ja: "サーバー全体の自動更新ループを有効/無効にします。",
               zh: "启用或禁用整个服务器的自动更新循环。",
+              th: "เปิดหรือปิดการอัปเดตอัตโนมัติสำหรับเซิร์ฟเวอร์ทั้งหมด",
             })}
           />
 
           <ToggleSettingCard
-            label={t({ ko: "OAuth 자동 스왑", en: "OAuth Auto Swap", ja: "OAuth 自動スワップ", zh: "OAuth 自动切换" })}
+            label={t({ ko: "OAuth 자동 스왑", en: "OAuth Auto Swap", ja: "OAuth 自動スワップ", zh: "OAuth 自动切换", th: "สลับ OAuth อัตโนมัติ" })}
             checked={form.oauthAutoSwap !== false}
             onToggle={() => setForm({ ...form, oauthAutoSwap: !(form.oauthAutoSwap !== false) })}
             title={t({
               ko: "실패/한도 시 다음 OAuth 계정으로 자동 전환",
               en: "Auto-switch to next OAuth account on failures/limits",
               ja: "失敗/上限時に次の OAuth アカウントへ自動切替",
-              zh: "失败/额度限制时自动切换到下一个 OAuth 账号",
+              zh: "在失败/达到限制时自动切换到下一个 OAuth 账户",
+              th: "สลับไปยังบัญชี OAuth ถัดไปโดยอัตโนมัติเมื่อล้มเหลว/ถึงขีดจำกัด",
             })}
           />
         </div>
@@ -143,7 +147,8 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
               ko: "기본 CLI 프로바이더",
               en: "Default CLI Provider",
               ja: "デフォルト CLI プロバイダ",
-              zh: "默认 CLI 提供方",
+              zh: "默认 CLI 提供商",
+              th: "ผู้ให้บริการ CLI เริ่มต้น",
             })}
           </label>
           <select
@@ -165,7 +170,7 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
 
         <div>
           <label className="block text-xs mb-1" style={{ color: "var(--th-text-secondary)" }}>
-            {t({ ko: "언어", en: "Language", ja: "言語", zh: "语言" })}
+            {t({ ko: "언어", en: "Language", ja: "言語", zh: "语言", th: "ภาษา" })}
           </label>
           <select
             value={form.language}
@@ -177,10 +182,10 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
               color: "var(--th-text-primary)",
             }}
           >
-            <option value="ko">{t({ ko: "한국어", en: "Korean", ja: "韓国語", zh: "韩语" })}</option>
-            <option value="en">{t({ ko: "영어", en: "English", ja: "英語", zh: "英语" })}</option>
-            <option value="ja">{t({ ko: "일본어", en: "Japanese", ja: "日本語", zh: "日语" })}</option>
-            <option value="zh">{t({ ko: "중국어", en: "Chinese", ja: "中国語", zh: "中文" })}</option>
+            <option value="ko">{t({ ko: "한국어", en: "Korean", ja: "韓国語", zh: "韩语", th: "ภาษาเกาหลี" })}</option>
+            <option value="en">{t({ ko: "영어", en: "English", ja: "英語", zh: "英语", th: "ภาษาอังกฤษ" })}</option>
+            <option value="ja">{t({ ko: "일본어", en: "Japanese", ja: "日本語", zh: "日语", th: "ภาษาญี่ปุ่น" })}</option>
+            <option value="zh">{t({ ko: "중국어", en: "Chinese", ja: "中国語", zh: "中文", th: "ภาษาจีน" })}</option>
           </select>
         </div>
       </section>
@@ -188,14 +193,14 @@ export default function GeneralSettingsTab({ t, form, setForm, saved, onSave }: 
       <div className="flex justify-end gap-3">
         {saved && (
           <span className="text-green-400 text-sm self-center">
-            ✅ {t({ ko: "저장 완료", en: "Saved", ja: "保存完了", zh: "已保存" })}
+            ✅ {t({ ko: "저장 완료", en: "Saved", ja: "保存完了", zh: "已保存", th: "บันทึกเรียบร้อย" })}
           </span>
         )}
         <button
           onClick={onSave}
           className="px-8 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30"
         >
-          {t({ ko: "저장", en: "Save", ja: "保存", zh: "保存" })}
+          {t({ ko: "저장", en: "Save", ja: "保存", zh: "保存", th: "บันทึก" })}
         </button>
       </div>
     </>
