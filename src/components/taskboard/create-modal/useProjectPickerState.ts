@@ -159,6 +159,7 @@ export function useProjectPickerState({
             en: "Failed to load path suggestions.",
             ja: "パス候補を読み込めませんでした。",
             zh: "无法加载路径候选。",
+            th: "ไม่สามารถโหลดคำแนะนำเส้นทางได้",
           }),
         });
       })
@@ -207,6 +208,7 @@ export function useProjectPickerState({
               en: "Failed to load directories.",
               ja: "ディレクトリ一覧を読み込めませんでした。",
               zh: "无法加载目录列表。",
+              th: "ไม่สามารถโหลดรายการไดเรกทอรีได้",
             }),
           );
         }
@@ -317,6 +319,7 @@ export function useProjectPickerState({
           en: "Failed to open OS folder picker.",
           ja: "OSフォルダ選択を開けませんでした。",
           zh: "无法打开系统文件夹选择器。",
+          th: "ไม่สามารถเปิดตัวเลือกโฟลเดอร์ของระบบปฏิบัติการได้",
         });
         if (
           isApiRequestError(err) &&

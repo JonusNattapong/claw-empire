@@ -228,29 +228,29 @@ export const CATEGORY_COLORS: Record<string, string> = {
 export function categoryLabel(category: string, t: TFunction) {
   switch (category) {
     case "All":
-      return t({ ko: "전체", en: "All", ja: "すべて", zh: "全部" });
+      return t({ ko: "전체", en: "All", ja: "すべて", zh: "全部", th: "ทั้งหมด" });
     case "Frontend":
-      return t({ ko: "프론트엔드", en: "Frontend", ja: "フロントエンド", zh: "前端" });
+      return t({ ko: "프론트엔드", en: "Frontend", ja: "フロントエンド", zh: "前端", th: "ส่วนหน้า" });
     case "Backend":
-      return t({ ko: "백엔드", en: "Backend", ja: "バックエンド", zh: "后端" });
+      return t({ ko: "백엔드", en: "Backend", ja: "バックエンド", zh: "后端", th: "ส่วนหลัง" });
     case "Design":
-      return t({ ko: "디자인", en: "Design", ja: "デザイン", zh: "设计" });
+      return t({ ko: "디자인", en: "Design", ja: "デザイン", zh: "设计", th: "การออกแบบ" });
     case "AI & Agent":
-      return t({ ko: "AI & 에이전트", en: "AI & Agent", ja: "AI & エージェント", zh: "AI 与代理" });
+      return t({ ko: "AI & 에이전트", en: "AI & Agent", ja: "AI & エージェント", zh: "AI 与代理", th: "AI และเอเจนต์" });
     case "Marketing":
-      return t({ ko: "마케팅", en: "Marketing", ja: "マーケティング", zh: "营销" });
+      return t({ ko: "마케팅", en: "Marketing", ja: "マーケティング", zh: "营销", th: "การตลาด" });
     case "Testing & QA":
-      return t({ ko: "테스트 & QA", en: "Testing & QA", ja: "テスト & QA", zh: "测试与 QA" });
+      return t({ ko: "테스트 & QA", en: "Testing & QA", ja: "テスト & QA", zh: "测试与 QA", th: "การทดสอบและ QA" });
     case "DevOps":
-      return t({ ko: "데브옵스", en: "DevOps", ja: "DevOps", zh: "DevOps" });
+      return t({ ko: "데브옵스", en: "DevOps", ja: "DevOps", zh: "DevOps", th: "DevOps" });
     case "Productivity":
-      return t({ ko: "생산성", en: "Productivity", ja: "生産性", zh: "效率" });
+      return t({ ko: "생산성", en: "Productivity", ja: "生産性", zh: "效率", th: "ประสิทธิภาพ" });
     case "Architecture":
-      return t({ ko: "아키텍처", en: "Architecture", ja: "アーキテクチャ", zh: "架构" });
+      return t({ ko: "아키텍처", en: "Architecture", ja: "アーキテクチャ", zh: "架构", th: "สถาปัตยกรรม" });
     case "Security":
-      return t({ ko: "보안", en: "Security", ja: "セキュリティ", zh: "安全" });
+      return t({ ko: "보안", en: "Security", ja: "セキュリティ", zh: "安全", th: "ความปลอดภัย" });
     case "Other":
-      return t({ ko: "기타", en: "Other", ja: "その他", zh: "其他" });
+      return t({ ko: "기타", en: "Other", ja: "その他", zh: "其他", th: "อื่นๆ" });
     default:
       return category;
   }
@@ -278,10 +278,10 @@ export function formatFirstSeen(value: string, localeTag: string): string {
 
 export function localizeAuditStatus(status: string, t: TFunction): string {
   const normalized = status.toLowerCase();
-  if (normalized === "pass") return t({ ko: "통과", en: "Pass", ja: "合格", zh: "通过" });
-  if (normalized === "warn") return t({ ko: "경고", en: "Warn", ja: "警告", zh: "警告" });
-  if (normalized === "pending") return t({ ko: "대기", en: "Pending", ja: "保留", zh: "待处理" });
-  if (normalized === "fail") return t({ ko: "실패", en: "Fail", ja: "失敗", zh: "失败" });
+  if (normalized === "pass") return t({ ko: "통과", en: "Pass", ja: "合格", zh: "通过", th: "ผ่าน" });
+  if (normalized === "warn") return t({ ko: "경고", en: "Warn", ja: "警告", zh: "警告", th: "คำเตือน" });
+  if (normalized === "pending") return t({ ko: "대기", en: "Pending", ja: "保留", zh: "待处理", th: "รอดำเนินการ" });
+  if (normalized === "fail") return t({ ko: "실패", en: "Fail", ja: "失敗", zh: "失败", th: "ล้มเหลว" });
   return status;
 }
 

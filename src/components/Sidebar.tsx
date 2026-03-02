@@ -28,15 +28,15 @@ export default function Sidebar({ currentView, onChangeView, departments, agents
   const workingCount = agents.filter((a) => a.status === "working").length;
   const totalAgents = agents.length;
 
-  const tr = (ko: string, en: string, ja = en, zh = en) => t({ ko, en, ja, zh });
+  const tr = (ko: string, en: string, ja = en, zh = en, th = en) => t({ ko, en, ja, zh, th });
 
   const navLabels: Record<View, string> = {
-    office: tr("오피스", "Office", "オフィス", "办公室"),
-    agents: tr("직원관리", "Agents", "社員管理", "员工管理"),
-    skills: tr("문서고", "Library", "ライブラリ", "文档库"),
-    dashboard: tr("대시보드", "Dashboard", "ダッシュボード", "仪表盘"),
-    tasks: tr("업무 관리", "Tasks", "タスク管理", "任务管理"),
-    settings: tr("설정", "Settings", "設定", "设置"),
+    office: tr("오피스", "Office", "オフィス", "办公室", "สำนักงาน"),
+    agents: tr("직원관리", "Agents", "社員管理", "员工管理", "จัดการพนักงาน"),
+    skills: tr("문서고", "Library", "ライブラリ", "文档库", "คลังเอกสาร"),
+    dashboard: tr("대시보드", "Dashboard", "ダッシュボード", "仪表盘", "แดชบอร์ด"),
+    tasks: tr("업무 관리", "Tasks", "タスク管理", "任务管理", "จัดการงาน"),
+    settings: tr("설정", "Settings", "設定", "设置", "การตั้งค่า"),
   };
 
   return (
@@ -56,7 +56,7 @@ export default function Sidebar({ currentView, onChangeView, departments, agents
           <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 relative overflow-visible">
             <img
               src="/sprites/ceo-lobster.png"
-              alt={tr("CEO", "CEO")}
+              alt={tr("CEO", "CEO", "CEO", "CEO", "CEO")}
               className="w-8 h-8 object-contain"
               style={{ imageRendering: "pixelated" }}
             />
@@ -109,7 +109,7 @@ export default function Sidebar({ currentView, onChangeView, departments, agents
             className="text-[10px] uppercase font-semibold mb-1.5 tracking-wider"
             style={{ color: "var(--th-text-muted)" }}
           >
-            {tr("부서 현황", "Department Status", "部門状況", "部门状态")}
+            {tr("부서 현황", "Department Status", "部門状況", "部门状态", "สถานะแผนก")}
           </div>
           {departments.map((d) => {
             const deptAgents = agents.filter((a) => a.department_id === d.id);
@@ -138,9 +138,9 @@ export default function Sidebar({ currentView, onChangeView, departments, agents
           {!collapsed && (
             <div className="text-[10px]" style={{ color: "var(--th-text-muted)" }}>
               {connected
-                ? tr("연결됨", "Connected", "接続中", "已连接")
-                : tr("연결 끊김", "Disconnected", "接続なし", "已断开")}{" "}
-              · {workingCount}/{totalAgents} {tr("근무중", "working", "稼働中", "工作中")}
+                ? tr("연결됨", "Connected", "接続中", "已连接", "เชื่อมต่อแล้ว")
+                : tr("연결 끊김", "Disconnected", "接続なし", "已断开", "เชื่อมต่อไม่ได้")}{" "}
+              · {workingCount}/{totalAgents} {tr("근무중", "working", "稼働中", "工作中", "กำลังทำงาน")}
             </div>
           )}
         </div>

@@ -59,7 +59,7 @@ type DirectChatDeps = {
   };
   buildRoundGoal: (projectCoreGoal: string, message: string) => string;
   getDeptName: (deptId: string) => string;
-  l: (ko: string[], en: string[], ja?: string[], zh?: string[]) => L10n;
+  l: (ko: string[], en: string[], ja?: string[], zh?: string[], th?: string[]) => L10n;
   pickL: (pool: L10n, lang: Lang) => string;
   sendAgentMessage: (
     agent: AgentRow,
@@ -604,6 +604,7 @@ export function createDirectChatHandlers(deps: DirectChatDeps) {
     if (lang === "en") return "Respond in English.";
     if (lang === "ja") return "Respond in Japanese.";
     if (lang === "zh") return "Respond in Chinese.";
+    if (lang === "th") return "Respond in Thai.";
     return "Respond in Korean.";
   }
 
@@ -783,6 +784,7 @@ export function createDirectChatHandlers(deps: DirectChatDeps) {
     if (lang === "en") return " [LATEST]";
     if (lang === "ja") return " [最新]";
     if (lang === "zh") return " [最新]";
+    if (lang === "th") return " [ล่าสุด]";
     return " [최신]";
   }
 
@@ -790,6 +792,7 @@ export function createDirectChatHandlers(deps: DirectChatDeps) {
     if (lang === "en") return "Path";
     if (lang === "ja") return "パス";
     if (lang === "zh") return "路径";
+    if (lang === "th") return "เส้นทาง";
     return "경로";
   }
 
@@ -797,6 +800,7 @@ export function createDirectChatHandlers(deps: DirectChatDeps) {
     if (lang === "en") return "Name";
     if (lang === "ja") return "名前";
     if (lang === "zh") return "名称";
+    if (lang === "th") return "ชื่อ";
     return "이름";
   }
 
@@ -1197,14 +1201,14 @@ export function createDirectChatHandlers(deps: DirectChatDeps) {
 
   function resolveProgressStatusLabel(status: string, lang: Lang): string {
     const labels: Record<string, Record<Lang, string>> = {
-      inbox: { ko: "접수", en: "Inbox", ja: "受信", zh: "收件" },
-      planned: { ko: "계획", en: "Planned", ja: "計画", zh: "计划" },
-      collaborating: { ko: "협업", en: "Collaborating", ja: "協業", zh: "协作" },
-      in_progress: { ko: "진행", en: "In Progress", ja: "進行中", zh: "进行中" },
-      review: { ko: "검토", en: "Review", ja: "レビュー", zh: "评审" },
-      pending: { ko: "보류", en: "Pending", ja: "保留", zh: "待处理" },
-      done: { ko: "완료", en: "Done", ja: "完了", zh: "完成" },
-      cancelled: { ko: "취소", en: "Cancelled", ja: "取消", zh: "取消" },
+      inbox: { ko: "접수", en: "Inbox", ja: "受信", zh: "收件", th: "กล่องข้อความ" },
+      planned: { ko: "계획", en: "Planned", ja: "計画", zh: "计划", th: "วางแผนแล้ว" },
+      collaborating: { ko: "협업", en: "Collaborating", ja: "協業", zh: "协作", th: "ร่วมมือ" },
+      in_progress: { ko: "진행", en: "In Progress", ja: "進行中", zh: "进行中", th: "กำลังดำเนินการ" },
+      review: { ko: "검토", en: "Review", ja: "レビュー", zh: "评审", th: "ตรวจสอบ" },
+      pending: { ko: "보류", en: "Pending", ja: "保留", zh: "待处理", th: "รอดำเนินการ" },
+      done: { ko: "완료", en: "Done", ja: "完了", zh: "完成", th: "เสร็จสิ้น" },
+      cancelled: { ko: "취소", en: "Cancelled", ja: "取消", zh: "取消", th: "ยกเลิก" },
     };
     return labels[status]?.[lang] ?? status;
   }
@@ -1346,9 +1350,10 @@ export function createDirectChatHandlers(deps: DirectChatDeps) {
         if (lang === "ko") return `${label} ${entry.count}건`;
         if (lang === "ja") return `${label} ${entry.count}件`;
         if (lang === "zh") return `${label} ${entry.count}项`;
+        if (lang === "th") return `${label} ${entry.count} รายการ`;
         return `${label} ${entry.count}`;
       })
-      .join(lang === "ko" || lang === "ja" || lang === "zh" ? " / " : ", ");
+      .join(lang === "ko" || lang === "ja" || lang === "zh" || lang === "th" ? " / " : ", ");
 
     const recentRows = rows.slice(0, 5);
     const recentLines = recentRows.map((row, index) => {
@@ -1365,6 +1370,9 @@ export function createDirectChatHandlers(deps: DirectChatDeps) {
       }
       if (lang === "zh") {
         return `${index + 1}. [${statusLabel}] ${row.title}${assignee ? ` · 负责人: ${assignee}` : ""}`;
+      }
+      if (lang === "th") {
+        return `${index + 1}. [${statusLabel}] ${row.title}${assignee ? ` · ผู้รับผิดชอบ: ${assignee}` : ""}`;
       }
       return `${index + 1}. [${statusLabel}] ${row.title}${assignee ? ` · owner: ${assignee}` : ""}`;
     });

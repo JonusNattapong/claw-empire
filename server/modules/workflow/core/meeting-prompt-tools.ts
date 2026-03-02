@@ -112,6 +112,7 @@ export function createMeetingPromptTools(deps: CreateMeetingPromptToolsDeps) {
     if (lang === "en") return `${name}: CLI response failed (${error || "unknown error"}).`;
     if (lang === "ja") return `${name}: CLI応答の生成に失敗しました（${error || "不明なエラー"}）。`;
     if (lang === "zh") return `${name}: CLI回复生成失败（${error || "未知错误"}）。`;
+    if (lang === "th") return `${name}: การตอบกลับ CLI ล้มเหลว (${error || "ข้อผิดพลาดไม่ทราบ"})`;
     return `${name}: CLI 응답 생성에 실패했습니다 (${error || "알 수 없는 오류"}).`;
   }
 

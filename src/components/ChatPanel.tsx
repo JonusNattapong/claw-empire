@@ -68,7 +68,7 @@ export function ChatPanel({
   const { t, locale } = useI18n();
   const isKorean = locale.startsWith("ko");
 
-  const tr = (ko: string, en: string, ja = en, zh = en) => t({ ko, en, ja, zh });
+  const tr = (ko: string, en: string, ja = en, zh = en, th = en) => t({ ko, en, ja, zh, th });
 
   const getAgentName = (agent: Agent | null | undefined) => {
     if (!agent) return "";
@@ -213,6 +213,7 @@ export function ChatPanel({
           "Please enter a number (1-10) or a project name.",
           "番号(1-10)またはプロジェクト名を入力してください。",
           "请输入编号(1-10)或项目名称。",
+          "กรุณาป้อนหมายเลข (1-10) หรือชื่อโปรเจกต์",
         ),
       );
       return;
@@ -330,7 +331,7 @@ export function ChatPanel({
     } else if (mode === "report" && selectedAgent) {
       action = {
         kind: "report",
-        content: `[${tr("보고 요청", "Report Request", "レポート依頼", "报告请求")}] ${trimmed}`,
+        content: `[${tr("보고 요청", "Report Request", "レポート依頼", "报告请求", "คำขอรายงาน")}] ${trimmed}`,
         receiverId: selectedAgent.id,
       };
     } else if (selectedAgent) {

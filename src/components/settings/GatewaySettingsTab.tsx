@@ -221,6 +221,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
             en: "Channel settings saved",
             ja: "チャネル設定を保存しました",
             zh: "频道设置已保存",
+            th: "บันทึกการตั้งค่าช่องทางเรียบร้อยแล้ว",
           }),
       });
       setTimeout(() => setSaved(null), 2500);
@@ -246,6 +247,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
         en: "Chat deleted",
         ja: "チャットを削除しました",
         zh: "聊天已删除",
+        th: "ลบแชทเรียบร้อยแล้ว",
       }),
     );
     setSendStatus(null);
@@ -294,6 +296,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
           en: "Please enter a token.",
           ja: "トークンを入力してください。",
           zh: "请输入令牌。",
+          th: "กรุณาป้อนโทเค็น",
         }),
       );
       return;
@@ -305,6 +308,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
           en: "Please enter a chat name.",
           ja: "チャット名を入力してください。",
           zh: "请输入聊天名称。",
+          th: "กรุณาป้อนชื่อแชท",
         }),
       );
       return;
@@ -316,6 +320,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
           en: "Please enter a channel/target ID.",
           ja: "チャンネル/対象 ID を入力してください。",
           zh: "请输入频道/目标 ID。",
+          th: "กรุณาป้อน ID ช่องทาง/เป้าหมาย",
         }),
       );
       return;
@@ -370,6 +375,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
         en: "Chat saved",
         ja: "チャット設定を保存しました",
         zh: "聊天设置已保存",
+        th: "บันทึกการตั้งค่าแชทเรียบร้อยแล้ว",
       }),
     );
     if (!savedOk) {
@@ -379,6 +385,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
           en: "Failed to save chat. Please try again.",
           ja: "チャット保存に失敗しました。再試行してください。",
           zh: "聊天保存失败，请重试。",
+          th: "บันทึกแชทล้มเหลว กรุณาลองใหม่",
         }),
       );
       return;
@@ -411,6 +418,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
           en: "Message sent",
           ja: "メッセージを送信しました",
           zh: "消息已发送",
+          th: "ส่งข้อความเรียบร้อยแล้ว",
         }),
       });
       setSendText("");
@@ -467,7 +475,13 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
     <section className="space-y-4 rounded-xl border border-slate-700/50 bg-slate-800/60 p-4 sm:p-5">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
-          {t({ ko: "채널 메시지 설정", en: "Channel Messaging", ja: "チャネルメッセージ設定", zh: "频道消息设置" })}
+          {t({
+            ko: "채널 메시지 설정",
+            en: "Channel Messaging",
+            ja: "チャネルメッセージ設定",
+            zh: "频道消息设置",
+            th: "การตั้งค่าข้อความช่องทาง",
+          })}
         </h3>
         {saved && <span className={`text-xs ${saved.ok ? "text-emerald-400" : "text-red-400"}`}>{saved.msg}</span>}
       </div>
@@ -478,19 +492,20 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
           en: "You can configure messenger channels directly in this tab. Use 'Add Chat' to register messenger/token/target ID/conversation agent.",
           ja: "このタブでメッセンジャーチャネルを直接設定できます。'チャット追加'からメッセンジャー/トークン/対象ID/担当Agentを登録してください。",
           zh: "可在此标签页直接配置消息渠道。通过“新增聊天”注册消息渠道/令牌/目标ID/对话 Agent。",
+          th: "คุณสามารถกำหนดช่องทางผู้สื่อสารได้โดยตรงในแท็บนี้ ใช้ 'เพิ่มแชท' เพื่อลงทะเบียนช่องทาง/โทเค็น/ID เป้าหมาย/เอเจนต์การสนทนา",
         })}
       </p>
 
       <div className="rounded-lg border border-slate-700/60 bg-slate-900/40 p-3 space-y-3">
         <div className="flex items-center justify-between">
           <div className="text-sm font-semibold text-slate-200">
-            {t({ ko: "채팅 세션", en: "Chat Sessions", ja: "チャットセッション", zh: "聊天会话" })}
+            {t({ ko: "채팅 세션", en: "Chat Sessions", ja: "チャットセッション", zh: "聊天会话", th: "เซสชันแชท" })}
           </div>
           <button
             onClick={openCreateModal}
             className="text-xs px-3 py-1 rounded-md bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-600/40"
           >
-            + {t({ ko: "새 채팅 추가", en: "Add Chat", ja: "チャット追加", zh: "新增聊天" })}
+            + {t({ ko: "새 채팅 추가", en: "Add Chat", ja: "チャット追加", zh: "新增聊天", th: "เพิ่มแชท" })}
           </button>
         </div>
 
@@ -501,6 +516,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
               en: "No chats yet. Use 'Add Chat' to register messenger/token/channel.",
               ja: "チャットがありません。'チャット追加'でメッセンジャー/トークン/チャネルを登録してください。",
               zh: "暂无聊天。请通过“新增聊天”注册消息渠道/令牌/频道。",
+              th: "ยังไม่มีแชท ใช้ เพิ่มแชท เพื่อลงทะเบียนช่องทาง/โทเค็น/ช่อง",
             })}
           </div>
         ) : (
@@ -525,12 +541,24 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                           className={`text-[10px] px-1.5 py-0.5 rounded ${meta.transportReady ? "bg-emerald-600/20 text-emerald-300" : "bg-amber-600/20 text-amber-300"}`}
                         >
                           {meta.transportReady
-                            ? t({ ko: "직접연동", en: "Native", ja: "直接連携", zh: "直连" })
-                            : t({ ko: "호환설정", en: "Compat", ja: "互換設定", zh: "兼容配置" })}
+                            ? t({ ko: "직접연동", en: "Native", ja: "直接連携", zh: "直连", th: "เชื่อมตรง" })
+                            : t({
+                                ko: "호환설정",
+                                en: "Compat",
+                                ja: "互換設定",
+                                zh: "兼容配置",
+                                th: "การตั้งค่าความเข้ากันได้",
+                              })}
                         </span>
                         {!tokenReady && (
                           <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-600/20 text-red-300">
-                            {t({ ko: "토큰 없음", en: "No token", ja: "トークンなし", zh: "无令牌" })}
+                            {t({
+                              ko: "토큰 없음",
+                              en: "No token",
+                              ja: "トークンなし",
+                              zh: "无令牌",
+                              th: "ไม่มีโทเค็น",
+                            })}
                           </span>
                         )}
                       </div>
@@ -538,7 +566,9 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                       <div className="mt-1 text-[11px] text-slate-500 flex items-center gap-1.5">
                         {assignedAgentName ? (
                           <>
-                            <span>{t({ ko: "대화 Agent", en: "Agent", ja: "担当Agent", zh: "对话 Agent" })}:</span>
+                            <span>
+                              {t({ ko: "대화 Agent", en: "Agent", ja: "担当Agent", zh: "对话 Agent", th: "เอเจนต์" })}:
+                            </span>
                             {assignedAgent && (
                               <AgentAvatar agent={assignedAgent} spriteMap={spriteMap} size={14} rounded="xl" />
                             )}
@@ -551,6 +581,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                               en: "No agent assigned",
                               ja: "Agent未指定",
                               zh: "未指定 Agent",
+                              th: "ยังไม่ได้กำหนดเอเจนต์",
                             })}
                           </span>
                         )}
@@ -561,13 +592,13 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                         onClick={() => openEditModal(row)}
                         className="px-2 py-1 rounded text-[11px] bg-slate-700/70 border border-slate-600 text-slate-200 hover:bg-slate-700"
                       >
-                        {t({ ko: "편집", en: "Edit", ja: "編集", zh: "编辑" })}
+                        {t({ ko: "편집", en: "Edit", ja: "編集", zh: "编辑", th: "แก้ไข" })}
                       </button>
                       <button
                         onClick={() => removeChat(row)}
                         className="px-2 py-1 rounded text-[11px] bg-red-600/20 border border-red-500/30 text-red-300 hover:bg-red-600/30"
                       >
-                        {t({ ko: "삭제", en: "Delete", ja: "削除", zh: "删除" })}
+                        {t({ ko: "삭제", en: "Delete", ja: "削除", zh: "删除", th: "ลบ" })}
                       </button>
                     </div>
                   </div>
@@ -583,6 +614,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
             en: "Messages starting with $ become company directives; normal messages go 1:1 to the selected agent.",
             ja: "$ で始まると全社通知、通常メッセージは選択 Agent との 1:1 会話になります。",
             zh: "以 $ 开头为公司指令，普通消息会进入所选 Agent 的 1:1 对话。",
+            th: "ข้อความที่ขึ้นต้นด้วย $ จะกลายเป็นคำสั่งบริษัท ข้อความปกติจะส่งไปยังเอเจนต์ที่เลือกแบบ 1:1",
           })}
         </div>
       </div>
@@ -590,7 +622,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
       <div className="rounded-lg border border-slate-700/60 bg-slate-900/40 p-3 space-y-3">
         <div className="flex items-center justify-between">
           <div className="text-sm font-semibold text-slate-200">
-            {t({ ko: "세션 테스트 전송", en: "Test Send", ja: "送信テスト", zh: "发送测试" })}
+            {t({ ko: "세션 테스트 전송", en: "Test Send", ja: "送信テスト", zh: "发送测试", th: "ทดสอบส่ง" })}
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -598,14 +630,14 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
               disabled={receiverLoading}
               className="text-xs text-blue-400 hover:text-blue-300 transition-colors disabled:opacity-60"
             >
-              {t({ ko: "수신상태", en: "Receiver", ja: "受信状態", zh: "接收状态" })}
+              {t({ ko: "수신상태", en: "Receiver", ja: "受信状態", zh: "接收状态", th: "สถานะรับ" })}
             </button>
             <button
               onClick={() => void loadRuntimeSessions()}
               disabled={runtimeLoading}
               className="text-xs text-blue-400 hover:text-blue-300 transition-colors disabled:opacity-60"
             >
-              {t({ ko: "실행중 세션", en: "Runtime", ja: "実行セッション", zh: "运行会话" })}
+              {t({ ko: "실행중 세션", en: "Runtime", ja: "実行セッション", zh: "运行会话", th: "รันไทม์" })}
             </button>
           </div>
         </div>
@@ -613,16 +645,29 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
         {telegramReceiverStatus && (
           <div className="rounded-md border border-slate-700/60 bg-slate-800/60 px-3 py-2 text-xs text-slate-300 space-y-1">
             <div>
-              {t({ ko: "텔레그램 수신기", en: "Telegram Receiver", ja: "Telegram 受信機", zh: "Telegram 接收器" })}:{" "}
+              {t({
+                ko: "텔레그램 수신기",
+                en: "Telegram Receiver",
+                ja: "Telegram 受信機",
+                zh: "Telegram 接收器",
+                th: "ตัวรับ Telegram",
+              })}
+              :{" "}
               <span className={telegramReceiverStatus.enabled ? "text-emerald-400" : "text-amber-300"}>
                 {telegramReceiverStatus.enabled
-                  ? t({ ko: "활성", en: "active", ja: "有効", zh: "已启用" })
-                  : t({ ko: "비활성", en: "inactive", ja: "無効", zh: "未启用" })}
+                  ? t({ ko: "활성", en: "active", ja: "有効", zh: "已启用", th: "เปิดใช้งาน" })
+                  : t({ ko: "비활성", en: "inactive", ja: "無効", zh: "未启用", th: "ปิดใช้งาน" })}
               </span>
             </div>
             <div>
-              {t({ ko: "허용 chat 수", en: "Allowed chats", ja: "許可チャット数", zh: "允许聊天数" })}:{" "}
-              {telegramReceiverStatus.allowedChatCount}
+              {t({
+                ko: "허용 chat 수",
+                en: "Allowed chats",
+                ja: "許可チャット数",
+                zh: "允许聊天数",
+                th: "จำนวนแชทที่อนุญาต",
+              })}
+              : {telegramReceiverStatus.allowedChatCount}
             </div>
             {telegramReceiverStatus.lastError && <div className="text-red-400">{telegramReceiverStatus.lastError}</div>}
           </div>
@@ -630,7 +675,13 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
 
         <div>
           <label className="block text-xs text-slate-400 mb-1">
-            {t({ ko: "전송 대상 세션", en: "Target Session", ja: "送信先セッション", zh: "目标会话" })}
+            {t({
+              ko: "전송 대상 세션",
+              en: "Target Session",
+              ja: "送信先セッション",
+              zh: "目标会话",
+              th: "เซสชันเป้าหมาย",
+            })}
           </label>
           {chatRows.length === 0 ? (
             <div className="text-xs text-slate-500 py-1">
@@ -639,6 +690,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                 en: "No saved session. Add a chat first.",
                 ja: "保存済みセッションがありません。先にチャットを追加してください。",
                 zh: "没有已保存会话，请先添加聊天。",
+                th: "ไม่มีเซสชันที่บันทึกไว้ กรุณาเพิ่มแชทก่อน",
               })}
             </div>
           ) : (
@@ -665,6 +717,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
             en: "Type a test message...",
             ja: "テストメッセージを入力...",
             zh: "输入测试消息...",
+            th: "พิมพ์ข้อความทดสอบ...",
           })}
           className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500 resize-y"
         />
@@ -676,6 +729,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
               en: "This channel can be configured and mapped, but direct transport runtime is not ready yet.",
               ja: "このチャネルは設定/マッピングは可能ですが、直接送信ランタイムは未対応です。",
               zh: "该渠道可配置和映射，但直连发送运行时暂未就绪。",
+              th: "ช่องทางนี้สามารถกำหนดค่าและแมปได้ แต่รันไทม์การส่งโดยตรงยังไม่พร้อม",
             })}
           </div>
         )}
@@ -686,8 +740,8 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
           className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {sending
-            ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中..." })
-            : t({ ko: "메시지 전송", en: "Send", ja: "送信", zh: "发送" })}
+            ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中...", th: "กำลังส่ง..." })
+            : t({ ko: "메시지 전송", en: "Send", ja: "送信", zh: "发送", th: "ส่ง" })}
         </button>
 
         {sendStatus && (
@@ -705,7 +759,13 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
         {runtimeSessions.length > 0 && (
           <div className="pt-1">
             <div className="text-xs text-slate-400 mb-1">
-              {t({ ko: "런타임 세션", en: "Runtime Sessions", ja: "実行中セッション", zh: "运行时会话" })}
+              {t({
+                ko: "런타임 세션",
+                en: "Runtime Sessions",
+                ja: "実行中セッション",
+                zh: "运行时会话",
+                th: "เซสชันรันไทม์",
+              })}
             </div>
             <div className="max-h-44 overflow-auto rounded-md border border-slate-700/60">
               {runtimeSessions.map((session) => (
@@ -728,21 +788,21 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
             <div className="flex items-center justify-between">
               <h4 className="text-sm font-semibold text-slate-100">
                 {editor.mode === "create"
-                  ? t({ ko: "새 채팅 추가", en: "Add Chat", ja: "チャット追加", zh: "新增聊天" })
-                  : t({ ko: "채팅 편집", en: "Edit Chat", ja: "チャット編集", zh: "编辑聊天" })}
+                  ? t({ ko: "새 채팅 추가", en: "Add Chat", ja: "チャット追加", zh: "新增聊天", th: "เพิ่มแชท" })
+                  : t({ ko: "채팅 편집", en: "Edit Chat", ja: "チャット編集", zh: "编辑聊天", th: "แก้ไขแชท" })}
               </h4>
               <button
                 onClick={closeEditorModal}
                 className="px-2 py-1 text-xs rounded border border-slate-600 text-slate-300 hover:bg-slate-800"
               >
-                {t({ ko: "닫기", en: "Close", ja: "閉じる", zh: "关闭" })}
+                {t({ ko: "닫기", en: "Close", ja: "閉じる", zh: "关闭", th: "ปิด" })}
               </button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  {t({ ko: "메신저", en: "Messenger", ja: "メッセンジャー", zh: "消息渠道" })}
+                  {t({ ko: "메신저", en: "Messenger", ja: "メッセンジャー", zh: "消息渠道", th: "เมสเซนเจอร์" })}
                 </label>
                 <select
                   value={editor.channel}
@@ -767,7 +827,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
 
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  {t({ ko: "활성 여부", en: "Enabled", ja: "有効", zh: "启用" })}
+                  {t({ ko: "활성 여부", en: "Enabled", ja: "有効", zh: "启用", th: "สถานะเปิดใช้งาน" })}
                 </label>
                 <label className="inline-flex items-center gap-2 text-xs text-slate-300 h-[38px]">
                   <input
@@ -777,15 +837,15 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                     className="accent-blue-500"
                   />
                   {editor.enabled
-                    ? t({ ko: "활성", en: "Enabled", ja: "有効", zh: "启用" })
-                    : t({ ko: "비활성", en: "Disabled", ja: "無効", zh: "禁用" })}
+                    ? t({ ko: "활성", en: "Enabled", ja: "有効", zh: "启用", th: "เปิดใช้งาน" })
+                    : t({ ko: "비활성", en: "Disabled", ja: "無効", zh: "禁用", th: "ปิดใช้งาน" })}
                 </label>
               </div>
             </div>
 
             <div>
               <label className="block text-xs text-slate-400 mb-1">
-                {t({ ko: "토큰", en: "Token", ja: "トークン", zh: "令牌" })}
+                {t({ ko: "토큰", en: "Token", ja: "トークン", zh: "令牌", th: "โทเค็น" })}
               </label>
               <input
                 type="password"
@@ -796,6 +856,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                   en: `Enter ${CHANNEL_META[editor.channel].label} token`,
                   ja: `${CHANNEL_META[editor.channel].label} トークンを入力`,
                   zh: `输入 ${CHANNEL_META[editor.channel].label} 令牌`,
+                  th: `ป้อนโทเค็น ${CHANNEL_META[editor.channel].label}`,
                 })}
                 className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
               />
@@ -804,7 +865,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  {t({ ko: "채팅 이름", en: "Chat Name", ja: "チャット名", zh: "聊天名称" })}
+                  {t({ ko: "채팅 이름", en: "Chat Name", ja: "チャット名", zh: "聊天名称", th: "ชื่อแชท" })}
                 </label>
                 <input
                   value={editor.name}
@@ -814,6 +875,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                     en: "e.g. Design Alerts",
                     ja: "例: デザイン通知",
                     zh: "例如：设计组通知",
+                    th: "ตัวอย่าง: การแจ้งเตือนดีไซน์",
                   })}
                   className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
                 />
@@ -821,7 +883,13 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
 
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  {t({ ko: "채널/대상 ID", en: "Channel/Target ID", ja: "チャンネル/対象 ID", zh: "频道/目标 ID" })}
+                  {t({
+                    ko: "채널/대상 ID",
+                    en: "Channel/Target ID",
+                    ja: "チャンネル/対象 ID",
+                    zh: "频道/目标 ID",
+                    th: "ID ช่องทาง/เป้าหมาย",
+                  })}
                 </label>
                 <input
                   value={editor.targetId}
@@ -834,7 +902,13 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
 
             <div>
               <label className="block text-xs text-slate-400 mb-1">
-                {t({ ko: "대화 Agent", en: "Conversation Agent", ja: "担当Agent", zh: "对话 Agent" })}
+                {t({
+                  ko: "대화 Agent",
+                  en: "Conversation Agent",
+                  ja: "担当Agent",
+                  zh: "对话 Agent",
+                  th: "เอเจนต์สนทนา",
+                })}
               </label>
               <AgentSelect
                 agents={agents}
@@ -845,6 +919,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                   en: "Select Agent",
                   ja: "担当エージェント選択",
                   zh: "选择对话 Agent",
+                  th: "เลือกเอเจนต์สนทนา",
                 })}
                 className={agentsLoading ? "pointer-events-none opacity-60" : ""}
               />
@@ -863,6 +938,7 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                   en: "Enable direct Telegram receive",
                   ja: "Telegram 直接受信を有効化",
                   zh: "启用 Telegram 直接接收",
+                  th: "เปิดใช้งานการรับ Telegram โดยตรง",
                 })}
               </label>
             )}
@@ -874,13 +950,13 @@ export default function GatewaySettingsTab({ t, form, setForm, persistSettings }
                 onClick={closeEditorModal}
                 className="px-3 py-1.5 text-xs rounded border border-slate-600 text-slate-300 hover:bg-slate-800"
               >
-                {t({ ko: "취소", en: "Cancel", ja: "キャンセル", zh: "取消" })}
+                {t({ ko: "취소", en: "Cancel", ja: "キャンセル", zh: "取消", th: "ยกเลิก" })}
               </button>
               <button
                 onClick={handleSaveEditor}
                 className="px-3 py-1.5 text-xs rounded bg-blue-600 text-white hover:bg-blue-500"
               >
-                {t({ ko: "확인", en: "Confirm", ja: "確認", zh: "确认" })}
+                {t({ ko: "확인", en: "Confirm", ja: "確認", zh: "确认", th: "ยืนยัน" })}
               </button>
             </div>
           </div>

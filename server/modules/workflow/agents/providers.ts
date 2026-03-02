@@ -5,6 +5,7 @@ import { createCredentialTools } from "./providers/credential-tools.ts";
 import { createUsageCliTools } from "./providers/usage-cli-tools.ts";
 import { createHttpAgentTools } from "./providers/http-agent-tools.ts";
 import { createApiProviderTools } from "./providers/api-provider-tools.ts";
+import { createKiloTools } from "./providers/kilo-tools.ts";
 
 export function initializeWorkflowAgentProviders(ctx: RuntimeContext): any {
   const __ctx: RuntimeContext = ctx;
@@ -17,10 +18,12 @@ export function initializeWorkflowAgentProviders(ctx: RuntimeContext): any {
   const normalizeStreamChunk = __ctx.normalizeStreamChunk;
   const createSubtaskFromCli = __ctx.createSubtaskFromCli;
   const completeSubtaskFromCli = __ctx.completeSubtaskFromCli;
-  const handleTaskRunComplete = (...args: any[]) => __ctx.handleTaskRunComplete(...args);
+  const handleTaskRunComplete = __ctx.handleTaskRunComplete;
   const ensureOAuthActiveAccount = __ctx.ensureOAuthActiveAccount;
   const getActiveOAuthAccountIds = __ctx.getActiveOAuthAccountIds;
   const setActiveOAuthAccount = __ctx.setActiveOAuthAccount;
+  const buildAgentArgs = __ctx.buildAgentArgs;
+  const spawnCliAgent = __ctx.spawnCliAgent;
 
   const processTools = createProcessTools({
     db,
@@ -137,6 +140,21 @@ export function initializeWorkflowAgentProviders(ctx: RuntimeContext): any {
   });
   const { executeApiProviderAgent, launchApiProviderAgent } = apiProviderTools;
 
+  const kiloTools = createKiloTools({
+    db,
+    logsDir,
+    activeProcesses: activeProcesses as any, // Type cast to handle Map<string, ChildProcess> to Map<number, any>
+    broadcast,
+    normalizeStreamChunk,
+    handleTaskRunComplete,
+    createSafeLogStreamOps,
+    parseSSEStream,
+    getProviderModelConfig,
+    buildAgentArgs,
+    spawnCliAgent,
+  });
+  const { executeKiloAgent, launchKiloAgent, getAvailableModels, getRecommendedModel, modelManager } = kiloTools;
+
   return {
     httpAgentCounter,
     getNextHttpAgentPid,
@@ -153,8 +171,10 @@ export function initializeWorkflowAgentProviders(ctx: RuntimeContext): any {
     executeCopilotAgent,
     executeAntigravityAgent,
     executeApiProviderAgent,
+    executeKiloAgent,
     launchHttpAgent,
     launchApiProviderAgent,
+    launchKiloAgent,
     killPidTree,
     isPidAlive,
     interruptPidTree,

@@ -38,4 +38,20 @@ describe("parseDecisionRequest", () => {
 
     expect(parseDecisionRequest(content)).toBeNull();
   });
+
+  it("parses Thai multiline options", () => {
+    const content = [
+      "พบความขัดแย้งระหว่างการทำงาน กรุณาเลือกตัวเลือก:",
+      "1.",
+      "ดำเนินการตรวจสอบ QA ต่อด้วยสถานะปัจจุบัน",
+      "2.",
+      "รีเซ็ตไปยัง baseline branch แล้วเริ่ม QA ใหม่",
+    ].join("\n");
+
+    const parsed = parseDecisionRequest(content);
+    expect(parsed?.options).toEqual([
+      { number: 1, label: "ดำเนินการตรวจสอบ QA ต่อด้วยสถานะปัจจุบัน" },
+      { number: 2, label: "รีเซ็ตไปยัง baseline branch แล้วเริ่ม QA ใหม่" },
+    ]);
+  });
 });

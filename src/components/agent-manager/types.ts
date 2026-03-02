@@ -1,6 +1,6 @@
 import type { Agent, Department } from "../../types";
 
-export type Translator = (ko: string, en: string) => string;
+export type Translator = (ko: string, en: string, th: string) => string;
 
 export interface AgentManagerProps {
   agents: Agent[];
@@ -13,6 +13,7 @@ export interface FormData {
   name_ko: string;
   name_ja: string;
   name_zh: string;
+  name_th: string;
   department_id: string;
   role: import("../../types").AgentRole;
   cli_provider: import("../../types").CliProvider;
@@ -27,6 +28,7 @@ export interface DeptForm {
   name_ko: string;
   name_ja: string;
   name_zh: string;
+  name_th: string;
   icon: string;
   color: string;
   description: string;

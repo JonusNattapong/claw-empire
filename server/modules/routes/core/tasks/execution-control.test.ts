@@ -312,7 +312,7 @@ function createDeps(seed?: {
     broadcast: vi.fn(),
     notifyCeo,
     pickL: (bundle: any, lang: string) => bundle[lang] ?? bundle.en ?? bundle.ko,
-    l: (ko: string[], en: string[], ja: string[], zh: string[]) => ({ ko, en, ja, zh }),
+    l: (ko: string[], en: string[], ja: string[], zh: string[], th: string[]) => ({ ko, en, ja, zh, th }),
     stopRequestedTasks,
     stopRequestModeByTask,
     interruptPidTree,

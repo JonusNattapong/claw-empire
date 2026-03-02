@@ -15,7 +15,7 @@ import { pickRandomSpritePair } from "./agent-manager/utils";
 export default function AgentManager({ agents, departments, onAgentsChange }: AgentManagerProps) {
   const { t, locale } = useI18n();
   const isKo = locale.startsWith("ko");
-  const tr = (ko: string, en: string) => t({ ko, en, ja: en, zh: en });
+  const tr = (ko: string, en: string, th: string) => t({ ko, en, ja: en, zh: en, th });
 
   const [subTab, setSubTab] = useState<"agents" | "departments">("agents");
   const [search, setSearch] = useState("");
@@ -62,7 +62,8 @@ export default function AgentManager({ agents, departments, onAgentsChange }: Ag
           agent.name.toLowerCase().includes(query) ||
           agent.name_ko.toLowerCase().includes(query) ||
           (agent.name_ja || "").toLowerCase().includes(query) ||
-          (agent.name_zh || "").toLowerCase().includes(query)
+          (agent.name_zh || "").toLowerCase().includes(query) ||
+          ((agent as { name_th?: string }).name_th || "").toLowerCase().includes(query)
         );
       }),
     [agents, deptTab, search],
@@ -90,6 +91,7 @@ export default function AgentManager({ agents, departments, onAgentsChange }: Ag
         name_ko: agent.name_ko,
         name_ja: agent.name_ja || "",
         name_zh: agent.name_zh || "",
+        name_th: (agent as { name_th?: string }).name_th || "",
         department_id: agent.department_id || "",
         role: agent.role,
         cli_provider: agent.cli_provider,
@@ -117,6 +119,7 @@ export default function AgentManager({ agents, departments, onAgentsChange }: Ag
         name_ko: form.name_ko.trim(),
         name_ja: form.name_ja.trim(),
         name_zh: form.name_zh.trim(),
+        name_th: form.name_th.trim(),
         role: form.role,
         cli_provider: form.cli_provider,
         avatar_emoji: form.avatar_emoji || "🤖",
@@ -291,7 +294,7 @@ export default function AgentManager({ agents, departments, onAgentsChange }: Ag
               style={{ imageRendering: "pixelated", zIndex: 1 }}
             />
           </span>
-          {tr("직원 관리", "Agent Manager")}
+          {tr("직원 관리", "Agent Manager", "จัดการเอเยนต์")}
         </h2>
         <div className="flex items-center gap-2">
           {subTab === "agents" && (
@@ -301,13 +304,13 @@ export default function AgentManager({ agents, departments, onAgentsChange }: Ag
                 className="px-3 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-90 active:opacity-80 shadow-sm"
                 style={{ background: "#7c3aed", color: "#ffffff", boxShadow: "0 1px 3px rgba(124,58,237,0.3)" }}
               >
-                + {tr("부서 추가", "Add Dept")}
+                + {tr("부서 추가", "Add Dept", "เพิ่มแผนก")}
               </button>
               <button
                 onClick={openCreate}
                 className="px-4 py-2 rounded-lg text-sm font-medium transition-all bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white shadow-sm shadow-blue-600/20"
               >
-                + {tr("신규 채용", "Hire Agent")}
+                + {tr("신규 채용", "Hire Agent", "จ้างเอเยนต์")}
               </button>
             </>
           )}
@@ -317,7 +320,7 @@ export default function AgentManager({ agents, departments, onAgentsChange }: Ag
               className="px-3 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-90 active:opacity-80 shadow-sm"
               style={{ background: "#7c3aed", color: "#ffffff", boxShadow: "0 1px 3px rgba(124,58,237,0.3)" }}
             >
-              + {tr("부서 추가", "Add Dept")}
+              + {tr("부서 추가", "Add Dept", "เพิ่มแผนก")}
             </button>
           )}
         </div>
@@ -330,10 +333,10 @@ export default function AgentManager({ agents, departments, onAgentsChange }: Ag
         {[
           {
             key: "agents" as const,
-            label: tr("직원관리", "Agents"),
+            label: tr("직원관리", "Agents", "เอเยนต์"),
             icon: <StackedSpriteIcon sprites={randomIconSprites.tab} />,
           },
-          { key: "departments" as const, label: tr("부서관리", "Departments"), icon: "🏢" },
+          { key: "departments" as const, label: tr("부서관리", "Departments", "แผนก"), icon: "🏢" },
         ].map((tab) => (
           <button
             key={tab.key}

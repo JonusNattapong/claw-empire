@@ -22,6 +22,7 @@ import { assertRuntimeFunctionsResolved, createDeferredRuntimeProxy } from "./mo
 import { ROUTE_RUNTIME_HELPER_KEYS } from "./modules/runtime-helper-keys.ts";
 import { startLifecycle } from "./modules/lifecycle.ts";
 import { registerApiRoutes } from "./modules/routes.ts";
+import { registerUnifiedProviderRoutes } from "./modules/routes/ops/unified-provider-routes.ts";
 import { initializeWorkflow } from "./modules/workflow.ts";
 import {
   createReadSettingString,
@@ -123,6 +124,7 @@ const runtimeProxy = createDeferredRuntimeProxy(runtimeContext);
 
 Object.assign(runtimeContext, initializeWorkflow(runtimeProxy as RuntimeContext));
 Object.assign(runtimeContext, registerApiRoutes(runtimeContext as RuntimeContext));
+Object.assign(runtimeContext, registerUnifiedProviderRoutes(runtimeContext as RuntimeContext));
 
 assertRuntimeFunctionsResolved(runtimeContext, ROUTE_RUNTIME_HELPER_KEYS, "route helper wiring");
 

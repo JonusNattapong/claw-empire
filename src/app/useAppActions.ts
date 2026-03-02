@@ -303,6 +303,7 @@ export function useAppActions({
             en: "Could not find the requested agent.",
             ja: "対象エージェント情報が見つかりません。",
             zh: "未找到对应代理信息。",
+            th: "ไม่พบข้อมูลเอเยนต์ที่ร้องขอ",
           }),
         );
         return;
@@ -332,6 +333,7 @@ export function useAppActions({
             en: `[Decision Reply] Please proceed with option ${option.number}. (${option.label})`,
             ja: `[意思決定返信] ${option.number}番で進めてください。(${option.label})`,
             zh: `[决策回复] 请按选项 ${option.number} 推进。（${option.label}）`,
+            th: `[ตอบกลับการตัดสินใจ] กรุณาดำเนินการตามตัวเลือก ${option.number} (${option.label})`,
           });
           await api.sendMessage({
             receiver_type: "agent",
@@ -353,6 +355,7 @@ export function useAppActions({
                   en: "Additional request is empty.",
                   ja: "追加要請が空です。",
                   zh: "追加请求内容为空。",
+                  th: "คำขอเพิ่มเติมว่างเปล่า",
                 }),
               );
               return;
@@ -381,6 +384,7 @@ export function useAppActions({
             en: "Failed to send decision reply. Please try again.",
             ja: "意思決定返信の送信に失敗しました。もう一度お試しください。",
             zh: "发送决策回复失败，请稍后重试。",
+            th: "ส่งการตอบกลับการตัดสินใจไม่สำเร็จ กรุณาลองอีกครั้ง",
           }),
         );
       } finally {

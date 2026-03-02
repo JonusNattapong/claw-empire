@@ -38,11 +38,12 @@ export default function GitHubOAuthAppConfig({ t }: { t: TFunction }) {
             en: "GitHub OAuth App (Private repo access)",
             ja: "GitHub OAuth App（プライベートリポアクセス）",
             zh: "GitHub OAuth App（私有仓库访问）",
+            th: "GitHub OAuth App (การเข้าถึง repo ส่วนตัว)",
           })}
         </h4>
         {ghClientIdSaved && (
           <span className="text-[10px] text-green-400">
-            {t({ ko: "저장됨", en: "Saved", ja: "保存済み", zh: "已保存" })}
+            {t({ ko: "저장됨", en: "Saved", ja: "保存済み", zh: "已保存", th: "บันทึกแล้ว" })}
           </span>
         )}
       </div>
@@ -52,6 +53,7 @@ export default function GitHubOAuthAppConfig({ t }: { t: TFunction }) {
           en: "Default GitHub uses Copilot OAuth which limits private repo access. Register your own OAuth App for full access.",
           ja: "デフォルトの GitHub 接続は Copilot OAuth を使用し、プライベートリポへのアクセスが制限されます。自前の OAuth App を登録すると全リポにアクセスできます。",
           zh: "默认 GitHub 使用 Copilot OAuth，限制私有仓库访问。注册自己的 OAuth App 可获取完整访问权限。",
+          th: "GitHub เริ่มต้นใช้ Copilot OAuth ซึ่งจำกัดการเข้าถึง repo ส่วนตัว ลงทะเบียน OAuth App ของคุณเองเพื่อให้เข้าถึงได้เต็มรูปแบบ",
         })}
       </p>
       <details className="text-[11px] text-slate-500">
@@ -61,6 +63,7 @@ export default function GitHubOAuthAppConfig({ t }: { t: TFunction }) {
             en: "How to create OAuth App",
             ja: "OAuth App 作成ガイド",
             zh: "如何创建 OAuth App",
+            th: "วิธีสร้าง OAuth App",
           })}
         </summary>
         <ol className="mt-2 ml-4 list-decimal space-y-1 text-slate-400">
@@ -71,6 +74,7 @@ export default function GitHubOAuthAppConfig({ t }: { t: TFunction }) {
               en: "Application name: any name (e.g. My Climpire)",
               ja: "Application name: 任意の名前（例: My Climpire）",
               zh: "Application name: 任意名称（如 My Climpire）",
+              th: "Application name: ชื่อใดก็ได้ (เช่น My Climpire)",
             })}
           </li>
           <li>Homepage URL: http://localhost:8800</li>
@@ -81,6 +85,7 @@ export default function GitHubOAuthAppConfig({ t }: { t: TFunction }) {
               en: "☑ Check 'Enable Device Flow'",
               ja: "☑ Enable Device Flow にチェック",
               zh: "☑ 勾选 Enable Device Flow",
+              th: "☑ ติ๊ก Enable Device Flow",
             })}
           </li>
           <li>
@@ -89,6 +94,7 @@ export default function GitHubOAuthAppConfig({ t }: { t: TFunction }) {
               en: "Register → Paste Client ID below",
               ja: "Register → Client ID を下に貼り付け",
               zh: "Register → 将 Client ID 粘贴到下方",
+              th: "Register → วาง Client ID ด้านล่าง",
             })}
           </li>
         </ol>
@@ -109,7 +115,7 @@ export default function GitHubOAuthAppConfig({ t }: { t: TFunction }) {
             onClick={saveClientId}
             className="shrink-0 rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-medium text-white hover:bg-blue-500"
           >
-            {t({ ko: "저장", en: "Save", ja: "保存", zh: "保存" })}
+            {t({ ko: "저장", en: "Save", ja: "保存", zh: "保存", th: "บันทึก" })}
           </button>
         </div>
       )}
@@ -120,6 +126,7 @@ export default function GitHubOAuthAppConfig({ t }: { t: TFunction }) {
             en: "After saving, reconnect your GitHub account using the 'Connect' or 'Add Account' button above.",
             ja: "保存後、上の「接続」または「アカウント追加」ボタンで GitHub アカウントを再接続してください。",
             zh: "保存后，使用上方的'连接'或'添加账号'按钮重新连接 GitHub 账号。",
+            th: "หลังจากบันทึก ให้เชื่อมต่อบัญชี GitHub ของคุณใหม่โดยใช้ปุ่ม 'Connect' หรือ 'Add Account' ด้านบน",
           })}
         </p>
       )}

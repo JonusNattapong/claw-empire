@@ -1,17 +1,22 @@
 <p align="center">
-  <img src="public/claw-empire.svg" width="80" alt="Claw-Empire" />
+  <img src="public/claw-empire.svg" width="80" alt="ClawOffice" />
 </p>
 
-<h1 align="center">Claw-Empire</h1>
+<h1 align="center">ClawOffice</h1>
 
 <p align="center">
-  <strong>Command Your AI Agent Empire from the CEO Desk</strong><br>
-  A local-first AI agent office simulator that orchestrates <b>CLI</b>, <b>OAuth</b>, and <b>API-connected</b> providers (including <b>Claude Code</b>, <b>Codex CLI</b>, <b>Gemini CLI</b>, <b>OpenCode</b>, <b>GitHub Copilot</b>, and <b>Antigravity</b>) as a virtual company of autonomous agents.
+  <strong>Command Your AI Agent Empire from CEO Desk</strong><br>
+  A local-first AI agent office simulator that orchestrates <b>CLI</b>, <b>OAuth</b>, and <b>API-connected</b> providers (including <b>Claude Code</b>, <b>Codex CLI</b>, <b>Gemini CLI</b>, <b>OpenCode</b>, <b>GitHub Copilot</b>, <b>Antigravity</b>, and <b>Kilo AI Gateway</b>) as a virtual company of autonomous agents.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.2.3-blue" alt="Releases" />
   <a href="https://github.com/GreenSheep01201/claw-empire/actions/workflows/ci.yml"><img src="https://github.com/GreenSheep01201/claw-empire/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI" /></a>
+  <img src="https://img.shields.io/badge/node-%3E%3D22-brightgreen" alt="Node.js 22+" />
+  <img src="https://img.shields.io/badge/license-Apache%202.0-orange" alt="License" />
+  <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey" alt="Platform" />
+  <img src="https://img.shields.io/badge/AI-Claude%20%7C%20Codex%20%7C%20Gemini%20%7C%20OpenCode%20%7C%20Copilot%20%7C%20Antigravity%20%7C%20Kilo-purple" alt="AI Agents" />
+  <a href="https://github.com/GreenSheep01201/claw-office/actions/workflows/ci.yml"><img src="https://github.com/GreenSheep01201/claw-office/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D22-brightgreen" alt="Node.js 22+" />
   <img src="https://img.shields.io/badge/license-Apache%202.0-orange" alt="License" />
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey" alt="Platform" />
@@ -60,8 +65,8 @@ Claw-Empire transforms your AI coding assistants — connected via **CLI**, **OA
 > **Just paste this to your AI coding agent (Claude Code, Codex, Gemini CLI, etc.):**
 >
 > ```
-> Install Claw-Empire following the guide at:
-> https://github.com/GreenSheep01201/claw-empire
+> Install ClawOffice following the guide at:
+> https://github.com/GreenSheep01201/claw-office
 > ```
 >
 > The AI will read this README and handle everything automatically.
@@ -70,18 +75,17 @@ Claw-Empire transforms your AI coding assistants — connected via **CLI**, **OA
 
 ## Latest Release (v1.2.3)
 
-- **Unified messenger channels + native adapters** - Standardized built-in channels (`telegram`, `whatsapp`, `discord`, `googlechat`, `slack`, `signal`, `imessage`) with runtime routing and channel-specific send handling.
-- **Settings UX redesign for chat sessions** - Added single "Add Chat" modal flow (create/edit/delete), immediate persist on confirm, and per-session agent mapping with avatar/name display.
-- **Channel-isolated report/meeting relay** - Task-scoped route pinning now relays task broadcasts (`report`, `chat`, `status_update`) only to the originating messenger channel/target.
-- **Decision Inbox in-messenger reply flow** - Decision requests are delivered to the mapped channel, users can respond with numeric choices directly (`1`, `1,3`), and replies are applied with localized ACKs.
-- **Decision delivery dedupe + formatting cleanup** - Added persistent dedupe guard to prevent repeated decision notices and simplified message format for cleaner mobile/messenger readability.
-- **Messenger completion report readability patch** - Long completion reports are auto-summarized for messenger delivery, with key results/progress plus agent identity intro line.
-- **Project binding + safety hardening** - Direct chat enforces existing/new project selection before escalation, improves multilingual intent fallback, and restricts path creation to `PROJECT_PATH_ALLOWED_ROOTS`.
-- **Direct chat reliability improvements** - Added duplicate sentence normalization and strengthened messenger session/route resolution logic.
+- **Kilo AI Gateway Integration** - Added Kilo as unified provider with smart CLI fallback for 65+ AI providers
+- **Unified Provider Management** - Centralized provider system with automatic execution method selection (native CLI vs API)
+- **Smart Model Selection** - Auto-recommend models based on task type and provider capabilities
+- **Enhanced API Endpoints** - `/api/providers`, `/api/kilo/models`, `/api/kilo/providers` for comprehensive provider management
+- **Cost Optimization** - Free model detection and native CLI usage when available for better performance
+- **Type Safety Improvements** - Full TypeScript support for unified provider system
 
 - Full notes: [`docs/releases/v1.2.3.md`](docs/releases/v1.2.3.md)
 - API docs: [`docs/api.md`](docs/api.md), [`docs/openapi.json`](docs/openapi.json)
 - Security policy: [`SECURITY.md`](SECURITY.md)
+- Repository: [`https://github.com/OpenKrab/ClawOffice`](https://github.com/OpenKrab/ClawOffice)
 
 
 ## Screenshots
@@ -181,7 +185,7 @@ Usage path: **Chat window > Report Request button**, then enter your request.
 | **Pixel-Art Office**           | Animated office view with agents walking, working, and attending meetings across 6 departments                                                               |
 | **Kanban Task Board**          | Full task lifecycle — Inbox, Planned, Collaborating, In Progress, Review, Done — with drag-and-drop                                                          |
 | **CEO Chat & Directives**      | Direct communication with team leaders; `$` directives support meeting choice plus project path/context routing (`project_path`, `project_context`)          |
-| **Multi-Provider Support**     | Claude Code, Codex CLI, Gemini CLI, OpenCode, Antigravity — all from one dashboard                                                                           |
+| **Multi-Provider Support**     | Claude Code, Codex CLI, Gemini CLI, OpenCode, Antigravity, Kilo AI Gateway — all from one dashboard with smart CLI fallback                                                                           |
 | **External API Providers**     | Connect agents to external LLM APIs (OpenAI, Anthropic, Google, Ollama, OpenRouter, Together, Groq, Cerebras, custom) via Settings > API tab                 |
 | **OAuth Integration**          | GitHub & Google OAuth with AES-encrypted token storage in local SQLite                                                                                       |
 | **Real-time WebSocket**        | Live status updates, activity feed, and agent state synchronization                                                                                          |
@@ -195,6 +199,8 @@ Usage path: **Chat window > Report Request button**, then enter your request.
 | **Multi-Language UI**          | English, Korean, Japanese, Chinese — auto-detected or manually set                                                                                           |
 | **Messenger Integration**      | Telegram, Discord, Slack and more — send `$` CEO directives and receive updates through built-in direct channel sessions (OpenClaw optional)                                                   |
 | **PowerPoint Export**          | Generate presentation slides from meeting minutes and reports                                                                                                |
+| **Unified Provider System**   | Smart provider management with automatic CLI/API selection and Kilo AI Gateway integration for 65+ AI providers                                          |
+| **Cost Optimization**          | Free model detection and native CLI fallback for better performance and cost efficiency                                                          |
 | **Connectivity QA Scripts**    | Built-in `test:comm:*` scripts for CLI/OAuth/API communication validation with retry and evidence logs                                                       |
 | **In-App Update Notice**       | Checks GitHub latest release and shows a top banner with OS-specific `git pull` guidance when a newer version is available                                   |
 | **Department Management**      | Planning, Development, Design, QA/QC, DevSecOps, Operations — with dedicated management tab for arrow/drag-and-drop sort order editing                       |
@@ -262,7 +268,7 @@ macOS/Linux:
 [ -f .env ] && [ -f scripts/setup.mjs ] && echo "setup files ok"
 
 # AGENTS orchestration rules installed
-grep -R "BEGIN claw-empire orchestration rules" ~/.openclaw/workspace/AGENTS.md AGENTS.md 2>/dev/null || true
+grep -R "BEGIN claw-office orchestration rules" ~/.openclaw/workspace/AGENTS.md AGENTS.md 2>/dev/null || true
 grep -R "INBOX_SECRET_DISCOVERY_V2" ~/.openclaw/workspace/AGENTS.md AGENTS.md 2>/dev/null || true
 
 # OpenClaw inbox requirements in .env
@@ -274,7 +280,7 @@ Windows PowerShell:
 ```powershell
 if ((Test-Path .\.env) -and (Test-Path .\scripts\setup.mjs)) { "setup files ok" }
 $agentCandidates = @("$env:USERPROFILE\.openclaw\workspace\AGENTS.md", ".\AGENTS.md")
-$agentCandidates | ForEach-Object { if (Test-Path $_) { Select-String -Path $_ -Pattern "BEGIN claw-empire orchestration rules" } }
+$agentCandidates | ForEach-Object { if (Test-Path $_) { Select-String -Path $_ -Pattern "BEGIN claw-office orchestration rules" } }
 $agentCandidates | ForEach-Object { if (Test-Path $_) { Select-String -Path $_ -Pattern "INBOX_SECRET_DISCOVERY_V2" } }
 
 # OpenClaw inbox requirements in .env
@@ -365,8 +371,8 @@ If the repo is already cloned:
 
 | Platform                 | Command                                                                                                          |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| **macOS / Linux**        | `git submodule update --init --recursive && bash scripts/openclaw-setup.sh`                                      |
-| **Windows (PowerShell)** | `git submodule update --init --recursive; powershell -ExecutionPolicy Bypass -File .\scripts\openclaw-setup.ps1` |
+| **macOS / Linux**        | `git submodule update --init --recursive && pnpm setup -- --port 8790`                                      |
+| **Windows (PowerShell)** | `git submodule update --init --recursive; pnpm setup -- --port 8790` |
 
 ### OpenClaw `.env` Requirements (for `/api/inbox`)
 
@@ -479,14 +485,10 @@ pnpm setup -- --port 8790
 <a id="openclaw-integration"></a>
 
 ### OpenClaw Integration Setup (Telegram/WhatsApp/Discord/Google Chat/Slack/Signal/iMessage)
-
 `install.sh` / `install.ps1` (or `scripts/openclaw-setup.*`) will auto-detect and write `OPENCLAW_CONFIG` when possible.
-
-Recommended `.env` format: absolute path for `OPENCLAW_CONFIG` (unquoted preferred).
-`v1.0.5` also normalizes surrounding quotes and leading `~` at runtime for compatibility.
-
+Recommended `.env` format: absolute path for `OPENCLAW_CONFIG` (unquoted preferred)
+`v1.2.3` also normalizes surrounding quotes and leading `~` at runtime for compatibility.
 Default config paths:
-
 | OS                | Path                                    |
 | ----------------- | --------------------------------------- |
 | **macOS / Linux** | `~/.openclaw/openclaw.json`             |

@@ -34,7 +34,7 @@ type MeetingMinutesDeps = {
   getRoleLabel: (role: string, lang: Lang) => string;
   getAgentDisplayName: (agent: AgentRow, lang: string) => string;
   pickL: (choices: any, lang: string) => string;
-  l: (ko: string[], en: string[], ja: string[], zh: string[]) => any;
+  l: (ko: string[], en: string[], ja: string[], zh: string[], th: string[]) => any;
   summarizeForMeetingBubble: (text: string, maxChars: number, lang?: Lang) => string;
   appendTaskLog: (taskId: string | null, kind: string, message: string) => void;
   broadcast: (event: string, payload: unknown) => void;
@@ -250,7 +250,9 @@ export function createMeetingMinutesTools(deps: MeetingMinutesDeps) {
           ? `[PROJECT MEMO] ${phaseLabel} ラウンド ${round} 未解決の補完項目 (${stamp})`
           : lang === "zh"
             ? `[PROJECT MEMO] ${phaseLabel} 第 ${round} 轮未解决改进项 (${stamp})`
-            : `[PROJECT MEMO] ${phaseLabel} 라운드 ${round} 미해결 보완 항목 (${stamp})`;
+            : lang === "th"
+              ? `[PROJECT MEMO] ${phaseLabel} รอบที่ ${round} ข้อที่ต้องปรับปรุงแต่ยังไม่ได้แก้ไข (${stamp})`
+              : `[PROJECT MEMO] ${phaseLabel} 라운드 ${round} 미해결 보완 항목 (${stamp})`;
     const fallbackLine =
       lang === "en"
         ? "- No explicit issue line captured; follow-up verification is still required."
@@ -258,7 +260,9 @@ export function createMeetingMinutesTools(deps: MeetingMinutesDeps) {
           ? "- 明示的な課題行は抽出されませんでしたが、後続検証は継続が必要です。"
           : lang === "zh"
             ? "- 未捕获到明确问题行，但后续验证仍需继续。"
-            : "- 명시적 이슈 문장을 추출하지 못했지만 후속 검증은 계속 필요합니다.";
+            : lang === "th"
+              ? "- ไม่พบประเด็นที่ชัดเจน แต่ยังต้องมีการติดตามตรวจสอบ"
+              : "- 명시적 이슈 문장을 추출하지 못했지만 후속 검증은 계속 필요합니다.";
     const body = notes.length > 0 ? notes.map((note) => `- ${note}`).join("\n") : fallbackLine;
 
     const block = `${header}\n${body}`;
@@ -293,7 +297,9 @@ export function createMeetingMinutesTools(deps: MeetingMinutesDeps) {
           ? `[PROJECT MEMO] Review ラウンド ${round} 最終パッケージ (${stamp})`
           : lang === "zh"
             ? `[PROJECT MEMO] Review 第 ${round} 轮最终输出包 (${stamp})`
-            : `[PROJECT MEMO] Review 라운드 ${round} 최종 결과 패키지 (${stamp})`;
+            : lang === "th"
+              ? `[PROJECT MEMO] Review รอบที่ ${round} สรุปผลสุดท้าย (${stamp})`
+              : `[PROJECT MEMO] Review 라운드 ${round} 최종 결과 패키지 (${stamp})`;
     const decisionLine = hasResidualRisk
       ? pickL(
           l(

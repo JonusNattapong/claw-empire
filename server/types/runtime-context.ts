@@ -248,7 +248,9 @@ export interface WorkflowAgentExports {
   executeCopilotAgent: (...args: any[]) => any;
   executeAntigravityAgent: (...args: any[]) => any;
   executeApiProviderAgent: (...args: any[]) => any;
+  executeKiloAgent: (...args: any[]) => any;
   launchApiProviderAgent: (...args: any[]) => any;
+  launchKiloAgent: (...args: any[]) => any;
   launchHttpAgent: (...args: any[]) => any;
   killPidTree: (...args: any[]) => any;
   isPidAlive: (...args: any[]) => any;

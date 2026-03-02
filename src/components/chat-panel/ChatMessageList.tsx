@@ -4,7 +4,7 @@ import type { DecisionOption } from "../chat/decision-request";
 import AgentAvatar from "../AgentAvatar";
 import MessageContent from "../MessageContent";
 
-type Tr = (ko: string, en: string, ja?: string, zh?: string) => string;
+type Tr = (ko: string, en: string, ja?: string, zh?: string, th?: string) => string;
 
 interface StreamingMessageLike {
   message_id: string;
@@ -75,21 +75,23 @@ export default function ChatMessageList({
           <div className="text-6xl">💬</div>
           <div>
             <p className="font-medium text-gray-400">
-              {tr("대화를 시작해보세요! 👋", "Start a conversation! 👋", "会話を始めましょう! 👋", "开始对话吧! 👋")}
+              {tr("대화를 시작해보세요! 👋", "Start a conversation! 👋", "会話を始めましょう! 👋", "开始对话吧! 👋", "เริ่มการสนทนา! 👋")}
             </p>
             <p className="mt-1 text-sm text-gray-600">
               {selectedAgent
                 ? tr(
-                    `${getAgentName(selectedAgent)}에게 메시지를 보내보세요`,
+                    `${getAgentName(selectedAgent)}에게 메시지를 별낼보세요`,
                     `Send a message to ${getAgentName(selectedAgent)}`,
                     `${getAgentName(selectedAgent)}にメッセージを送ってみましょう`,
                     `给 ${getAgentName(selectedAgent)} 发送一条消息吧`,
+                    `ส่งข้อความถึง ${getAgentName(selectedAgent)}`,
                   )
                 : tr(
-                    "전체 에이전트에게 공지를 보내보세요",
+                    "전체 에이전트에게 공지를 별낼보세요",
                     "Send an announcement to all agents",
                     "すべてのエージェントに告知を送ってみましょう",
                     "给所有代理发送一条公告吧",
+                    "ส่งประกาศถึงเอเจนต์ทั้งหมด",
                   )}
             </p>
           </div>
@@ -103,10 +105,10 @@ export default function ChatMessageList({
 
             const senderAgent = msg.sender_agent ?? agents.find((agent) => agent.id === msg.sender_id);
             const senderName = isCeo
-              ? tr("CEO", "CEO")
+              ? tr("CEO", "CEO", undefined, undefined, "CEO")
               : isSystem
-                ? tr("시스템", "System", "システム", "系统")
-                : getAgentName(senderAgent) || tr("알 수 없음", "Unknown", "不明", "未知");
+                ? tr("시스템", "System", "システム", "系统", "ระบบ")
+                : getAgentName(senderAgent) || tr("알 수 없음", "Unknown", "不明", "未知", "ไม่ทราบ");
             const decisionRequest = decisionRequestByMessage.get(msg.id);
 
             if (msg.sender_type === "agent" && msg.receiver_type === "all") {
@@ -121,7 +123,7 @@ export default function ChatMessageList({
                     {decisionRequest && (
                       <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-2 py-2">
                         <p className="text-[11px] font-medium text-indigo-200">
-                          {tr("의사결정 요청", "Decision request", "意思決定リクエスト", "决策请求")}
+                          {tr("의사결정 요청", "Decision request", "意思決定リクエスト", "决策请求", "คำขอการตัดสินใจ")}
                         </p>
                         <div className="mt-1.5 space-y-1">
                           {decisionRequest.options.map((option) => {
@@ -136,7 +138,7 @@ export default function ChatMessageList({
                                 className="decision-inline-option w-full rounded-md px-2 py-1.5 text-left text-[11px] transition disabled:opacity-60"
                               >
                                 {isBusy
-                                  ? tr("전송 중...", "Sending...", "送信中...", "发送中...")
+                                  ? tr("전송 중...", "Sending...", "送信中...", "发送中...", "กำลังส่ง...")
                                   : `${option.number}. ${option.label}`}
                               </button>
                             );
@@ -147,7 +149,13 @@ export default function ChatMessageList({
                           onClick={() => onDecisionManualDraft(decisionRequest.options[0])}
                           className="mt-2 text-[11px] text-indigo-200/90 underline underline-offset-2 hover:text-indigo-100"
                         >
-                          {tr("직접 답변 작성", "Write custom reply", "カスタム返信を作成", "编写自定义回复")}
+                          {tr(
+                            "직접 답변 작성",
+                            "Write custom reply",
+                            "カスタム返信を作成",
+                            "编写自定义回复",
+                            "เขียนคำตอบเอง",
+                          )}
                         </button>
                       </div>
                     )}
@@ -162,7 +170,7 @@ export default function ChatMessageList({
                 <div key={msg.id} className="flex flex-col items-center gap-1">
                   {isDirective && (
                     <span className="rounded-full border border-red-500/30 bg-red-500/10 px-2 py-0.5 text-xs font-bold text-red-400">
-                      {tr("업무지시", "Directive", "業務指示", "业务指示")}
+                      {tr("업무지시", "Directive", "業務指示", "业务指示", "คำสั่งงาน")}
                     </span>
                   )}
                   <div

@@ -31,12 +31,14 @@ export function useAppLabels({
     en: "Loading Claw-Empire...",
     ja: "Claw-Empireを読み込み中...",
     zh: "Claw-Empire 加载中...",
+    th: "กำลังโหลด Claw-Empire...",
   });
   const loadingSubtitle = pickLang(uiLanguage, {
     ko: "AI 에이전트 제국을 준비하고 있습니다",
     en: "Preparing your AI agent empire",
     ja: "AIエージェント帝国を準備しています",
     zh: "正在准备你的 AI 代理帝国",
+    th: "กำลังเตรียมอาณาจักร AI เอเจนต์ของคุณ",
   });
   const viewTitle = (() => {
     switch (view) {
@@ -46,6 +48,7 @@ export function useAppLabels({
           en: "Office",
           ja: "オフィス",
           zh: "办公室",
+          th: "ออฟฟิศ",
         })}`;
       case "dashboard":
         return `📊 ${pickLang(uiLanguage, {
@@ -53,6 +56,7 @@ export function useAppLabels({
           en: "Dashboard",
           ja: "ダッシュボード",
           zh: "仪表盘",
+          th: "แดชบอร์ด",
         })}`;
       case "tasks":
         return `📋 ${pickLang(uiLanguage, {
@@ -60,6 +64,7 @@ export function useAppLabels({
           en: "Tasks",
           ja: "タスク管理",
           zh: "任务管理",
+          th: "จัดการงาน",
         })}`;
       case "skills":
         return `📚 ${pickLang(uiLanguage, {
@@ -67,6 +72,7 @@ export function useAppLabels({
           en: "Skills",
           ja: "スキル資料室",
           zh: "技能库",
+          th: "คลังสกิล",
         })}`;
       case "settings":
         return `⚙️ ${pickLang(uiLanguage, {
@@ -74,6 +80,7 @@ export function useAppLabels({
           en: "Settings",
           ja: "設定",
           zh: "设置",
+          th: "การตั้งค่า",
         })}`;
       default:
         return "";
@@ -84,12 +91,14 @@ export function useAppLabels({
     en: "Announcement",
     ja: "全社告知",
     zh: "全员公告",
+    th: "ประกาศบริษัท",
   })}`;
   const roomManagerLabel = `🏢 ${pickLang(uiLanguage, {
     ko: "사무실 관리",
     en: "Office Manager",
     ja: "オフィス管理",
     zh: "办公室管理",
+    th: "จัดการออฟฟิศ",
   })}`;
   const roomManagerDepartments = useMemo(
     () => [
@@ -100,6 +109,7 @@ export function useAppLabels({
           en: "CEO Office",
           ja: "CEOオフィス",
           zh: "CEO办公室",
+          th: "ออฟฟิศ CEO",
         }),
       },
       ...departments,
@@ -110,6 +120,7 @@ export function useAppLabels({
           en: "Break Room",
           ja: "休憩室",
           zh: "休息室",
+          th: "ห้องพักผ่อน",
         }),
       },
     ],
@@ -120,24 +131,28 @@ export function useAppLabels({
     en: "Reports",
     ja: "レポート",
     zh: "报告",
+    th: "รายงาน",
   })}`;
   const tasksPrimaryLabel = pickLang(uiLanguage, {
     ko: "업무",
     en: "Tasks",
     ja: "タスク",
     zh: "任务",
+    th: "งาน",
   });
   const agentStatusLabel = pickLang(uiLanguage, {
     ko: "에이전트",
     en: "Agents",
     ja: "エージェント",
     zh: "代理",
+    th: "เอเจนต์",
   });
   const decisionLabel = pickLang(uiLanguage, {
     ko: "의사결정",
     en: "Decisions",
     ja: "意思決定",
     zh: "决策",
+    th: "การตัดสินใจ",
   });
   const effectiveUpdateStatus = forceUpdateBanner
     ? {
@@ -166,6 +181,7 @@ export function useAppLabels({
         en: `New version v${effectiveUpdateStatus?.latest_version} is available (current v${effectiveUpdateStatus?.current_version}).`,
         ja: `新しいバージョン v${effectiveUpdateStatus?.latest_version} が利用可能です（現在 v${effectiveUpdateStatus?.current_version}）。`,
         zh: `发现新版本 v${effectiveUpdateStatus?.latest_version}（当前 v${effectiveUpdateStatus?.current_version}）。`,
+        th: `มีเวอร์ชันใหม่ v${effectiveUpdateStatus?.latest_version} ให้ใช้งาน (ปัจจุบัน v${effectiveUpdateStatus?.current_version})`,
       })
     : "";
   const updateHint =
@@ -175,24 +191,28 @@ export function useAppLabels({
           en: "In Windows PowerShell, run `git pull; pnpm install`, then restart the server.",
           ja: "Windows PowerShell で `git pull; pnpm install` を実行し、サーバーを再起動してください。",
           zh: "在 Windows PowerShell 中执行 `git pull; pnpm install`，然后重启服务。",
+          th: "ใน Windows PowerShell ให้รัน `git pull; pnpm install` แล้วรีสตาร์ทเซิร์ฟเวอร์",
         })
       : pickLang(uiLanguage, {
           ko: "macOS/Linux에서 `git pull && pnpm install` 실행 후 서버를 재시작하세요.",
           en: "On macOS/Linux, run `git pull && pnpm install`, then restart the server.",
           ja: "macOS/Linux で `git pull && pnpm install` を実行し、サーバーを再起動してください。",
           zh: "在 macOS/Linux 上执行 `git pull && pnpm install`，然后重启服务。",
+          th: "บน macOS/Linux ให้รัน `git pull && pnpm install` แล้วรีสตาร์ทเซิร์ฟเวอร์",
         });
   const updateReleaseLabel = pickLang(uiLanguage, {
     ko: "릴리즈 노트",
     en: "Release Notes",
     ja: "リリースノート",
     zh: "发布说明",
+    th: "บันทึกการออกรุ่น",
   });
   const updateDismissLabel = pickLang(uiLanguage, {
     ko: "나중에",
     en: "Dismiss",
     ja: "後で",
     zh: "稍后",
+    th: "ภายหลัง",
   });
   const autoUpdateNoticeVisible = Boolean(settings.autoUpdateNoticePending);
   const autoUpdateNoticeTitle = pickLang(uiLanguage, {
@@ -200,18 +220,21 @@ export function useAppLabels({
     en: "Update notice: Auto Update toggle has been added.",
     ja: "更新のお知らせ: Auto Update トグルが追加されました。",
     zh: "更新提示：已新增 Auto Update 开关。",
+    th: "ประกาศอัปเดต: เพิ่มสวิตช์ Auto Update แล้ว",
   });
   const autoUpdateNoticeHint = pickLang(uiLanguage, {
     ko: "기존 설치(1.1.3 이하)에서는 기본값이 OFF입니다. Settings > General에서 필요 시 ON으로 전환할 수 있습니다.",
     en: "For existing installs (v1.1.3 and below), the default remains OFF. You can enable it in Settings > General when needed.",
     ja: "既存インストール（v1.1.3 以下）では既定値は OFF のままです。必要に応じて Settings > General で ON にできます。",
     zh: "对于现有安装（v1.1.3 及以下），默认仍为 OFF。可在 Settings > General 中按需开启。",
+    th: "สำหรับการติดตั้งเดิม (v1.1.3 และต่ำกว่า) ค่าเริ่มต้นยังคงเป็น OFF คุณสามารถเปิดได้ที่ Settings > General เมื่อต้องการ",
   });
   const autoUpdateNoticeActionLabel = pickLang(uiLanguage, {
     ko: "확인",
     en: "Got it",
     ja: "確認",
     zh: "知道了",
+    th: "รับทราบ",
   });
   const autoUpdateNoticeContainerClass =
     theme === "light"
@@ -230,6 +253,7 @@ export function useAppLabels({
         en: "Test display mode is on. Remove `?force_update_banner=1` to return to normal behavior.",
         ja: "テスト表示モードです。`?force_update_banner=1` を外すと通常動作に戻ります。",
         zh: "当前为测试显示模式。移除 `?force_update_banner=1` 即可恢复正常行为。",
+        th: "เปิดโหมดแสดงผลทดสอบอยู่ ลบ `?force_update_banner=1` เพื่อกลับสู่การทำงานปกติ",
       })
     : "";
 

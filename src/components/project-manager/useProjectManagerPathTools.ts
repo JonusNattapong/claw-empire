@@ -65,6 +65,7 @@ export function useProjectManagerPathTools({
         en: "This server does not support path helper APIs. Enter the path manually.",
         ja: "現在のサーバーではパス補助 API をサポートしていません。手入力してください。",
         zh: "当前服务器不支持路径辅助 API，请手动输入路径。",
+        th: "เซิร์ฟเวอร์นี้ไม่รองรับ API ตัวช่วยเส้นทาง กรุณาป้อนเส้นทางด้วยตนเอง",
       }),
     [t],
   );
@@ -72,10 +73,11 @@ export function useProjectManagerPathTools({
   const nativePickerUnavailableMessage = useMemo(
     () =>
       t({
-        ko: "운영체제 폴더 선택기를 사용할 수 없는 환경입니다. 앱 내 폴더 탐색 또는 직접 입력을 사용해주세요.",
+        ko: "운영체제 폴다 선택기를 사용할 수 없는 환경입니다. 앱 내 폴다 탐색 또는 직접 입력을 사용해주세요.",
         en: "OS folder picker is unavailable in this environment. Use in-app browser or manual input.",
         ja: "この環境では OS フォルダ選択が利用できません。アプリ内閲覧または手入力を使ってください。",
         zh: "当前环境无法使用系统文件夹选择器，请使用应用内浏览或手动输入。",
+        th: "ตัวเลือกโฟลเดอร์ของระบบปฏิบัติการไม่พร้อมใช้งานในสภาพแวดล้อมนี้ กรุณาใช้การเรียกดูในแอปหรือป้อนด้วยตนเอง",
       }),
     [t],
   );
@@ -88,6 +90,7 @@ export function useProjectManagerPathTools({
           en: "Path is outside allowed project roots.",
           ja: "許可されたプロジェクトパス範囲外です。",
           zh: "路径超出允许的项目根目录范围。",
+          th: "เส้นทางอยู่นอกรากโครงการที่ได้รับอนุญาต",
         });
       }
       return t({
@@ -95,6 +98,7 @@ export function useProjectManagerPathTools({
         en: `Path is outside allowed project roots. Allowed roots: ${allowedRoots.join(", ")}`,
         ja: `許可されたプロジェクトパス範囲外です。許可パス: ${allowedRoots.join(", ")}`,
         zh: `路径超出允许的项目根目录范围。允许路径：${allowedRoots.join(", ")}`,
+        th: `เส้นทางอยู่นอกรากโครงการที่ได้รับอนุญาต รากที่อนุญาต: ${allowedRoots.join(", ")}`,
       });
     },
     [t],
@@ -119,10 +123,20 @@ export function useProjectManagerPathTools({
       }
       if (err.code === "project_path_not_directory") {
         return t({
-          ko: "해당 경로는 폴더가 아닙니다. 디렉터리 경로를 입력해주세요.",
+          ko: "해당 경로는 폴다가 아닙니다. 디렉터리 경로를 입력해주세요.",
           en: "This path is not a directory. Please enter a directory path.",
           ja: "このパスはフォルダではありません。ディレクトリパスを入力してください。",
           zh: "该路径不是文件夹，请输入目录路径。",
+          th: "เส้นทางนี้ไม่ใช่ไดเรกทอรี กรุณาป้อนเส้นทางไดเรกทอรี",
+        });
+      }
+      if (err.code === "project_path_not_found") {
+        return t({
+          ko: "해당 경로를 찾을 수 없습니다.",
+          en: "Path not found.",
+          ja: "パスが見つかりません。",
+          zh: "找不到该路径。",
+          th: "ไม่พบเส้นทาง",
         });
       }
       if (err.code === "project_path_not_found") {
@@ -187,6 +201,7 @@ export function useProjectManagerPathTools({
             en: "Failed to load path suggestions.",
             ja: "パス候補を読み込めませんでした。",
             zh: "无法加载路径候选。",
+            th: "ไม่สามารถโหลดคำแนะนำเส้นทาง",
           }),
         });
       })
@@ -234,6 +249,7 @@ export function useProjectManagerPathTools({
               en: "Failed to load directories.",
               ja: "ディレクトリ一覧を読み込めませんでした。",
               zh: "无法加载目录列表。",
+              th: "ไม่สามารถโหลดรายการไดเรกทอรี",
             }),
           );
         }

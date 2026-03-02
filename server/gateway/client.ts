@@ -769,7 +769,7 @@ function detectGatewayLang(text: string): GatewayLang {
 }
 
 function normalizeGatewayLang(lang: string | null | undefined, title: string): GatewayLang {
-  if (lang === "ko" || lang === "en" || lang === "ja" || lang === "zh") return lang;
+  if (lang === "ko" || lang === "en" || lang === "ja" || lang === "zh" || lang === "th") return lang;
   if (title.trim()) return detectGatewayLang(title);
   return "en";
 }
@@ -779,18 +779,21 @@ function resolveStatusLabel(status: string, lang: GatewayLang): string {
     if (lang === "en") return "Started";
     if (lang === "ja") return "開始";
     if (lang === "zh") return "开始";
+    if (lang === "th") return "กำลังดำเนินการ";
     return "진행 시작";
   }
   if (status === "review") {
     if (lang === "en") return "In Review";
     if (lang === "ja") return "レビュー中";
     if (lang === "zh") return "审核中";
+    if (lang === "th") return "กำลังตรวจสอบ";
     return "검토 중";
   }
   if (status === "done") {
     if (lang === "en") return "Completed";
     if (lang === "ja") return "完了";
     if (lang === "zh") return "完成";
+    if (lang === "th") return "เสร็จสิ้น";
     return "완료";
   }
   return status;

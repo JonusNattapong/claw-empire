@@ -330,6 +330,7 @@ export function createOneShotRunner(deps: CreateOneShotRunnerDeps) {
     if (lang === "en") return { text: "Acknowledged. Continuing to the next step." };
     if (lang === "ja") return { text: "確認しました。次のステップへ進みます。" };
     if (lang === "zh") return { text: "已确认，继续进入下一步。" };
+    if (lang === "th") return { text: "รับทราบ จะดำเนินการขั้นตอนถัดไป" };
     return { text: "확인했습니다. 다음 단계로 진행하겠습니다." };
   }
 

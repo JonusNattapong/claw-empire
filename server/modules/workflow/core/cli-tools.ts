@@ -97,6 +97,7 @@ export function createCliTools(deps: CreateCliToolsDeps) {
       }
       case "copilot":
       case "antigravity":
+      case "kilo":
         throw new Error(`${provider} uses HTTP agent (not CLI spawn)`);
       default:
         throw new Error(`unsupported CLI provider: ${provider}`);

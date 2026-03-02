@@ -20,8 +20,8 @@ export function PrioritySection({ priority, t, onPriorityChange }: PrioritySecti
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-slate-300">
-        {t({ ko: "우선순위", en: "Priority", ja: "優先度", zh: "优先级" })}: {priorityIcon(priority)}{" "}
-        {priorityLabel(priority, t)} ({priority}/5)
+        {t({ ko: "우선순위", en: "Priority", ja: "優先度", zh: "优先级", th: "ลำดับความสำคัญ" })}:{" "}
+        {priorityIcon(priority)} {priorityLabel(priority, t)} ({priority}/5)
       </label>
       <div className="flex gap-2">
         {[1, 2, 3, 4, 5].map((star) => (
@@ -61,7 +61,7 @@ export function AssigneeSection({
   return (
     <div>
       <label className="mb-1 block text-sm font-medium text-slate-300">
-        {t({ ko: "담당 에이전트", en: "Assignee", ja: "担当エージェント", zh: "负责人" })}
+        {t({ ko: "담당 에이전트", en: "Assignee", ja: "担当エージェント", zh: "负责人", th: "ผู้รับผิดชอบ" })}
       </label>
       <AgentSelect
         agents={agents}
@@ -73,6 +73,7 @@ export function AssigneeSection({
           en: "-- Unassigned --",
           ja: "-- 未割り当て --",
           zh: "-- 未分配 --",
+          th: "-- ไม่ได้มอบหมาย --",
         })}
         size="md"
       />
@@ -83,6 +84,7 @@ export function AssigneeSection({
             en: "No agents are available in this department.",
             ja: "この部署にはエージェントがいません。",
             zh: "该部门暂无可用代理。",
+            th: "ไม่มีตัวแทนในแผนกนี้",
           })}
         </p>
       )}
@@ -158,7 +160,7 @@ export function ProjectSection({
   return (
     <div>
       <label className="mb-1 block text-sm font-medium text-slate-300">
-        {t({ ko: "프로젝트명", en: "Project Name", ja: "プロジェクト名", zh: "项目名" })}
+        {t({ ko: "프로젝트명", en: "Project Name", ja: "プロジェクト名", zh: "项目名", th: "ชื่อโปรเจกต์" })}
       </label>
       <div className="relative" ref={projectPickerRef}>
         <div className="flex items-center gap-2">
@@ -173,6 +175,7 @@ export function ProjectSection({
               en: "Type project name or path",
               ja: "プロジェクト名またはパスを入力",
               zh: "输入项目名称或路径",
+              th: "พิมชื่อหรือเส้นทางโปรเจกต์",
             })}
             className="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white placeholder-slate-500 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
@@ -185,6 +188,7 @@ export function ProjectSection({
               en: "Toggle project list",
               ja: "プロジェクト一覧の切替",
               zh: "切换项目列表",
+              th: "เปลี่ยนรายการโปรเจกต์",
             })}
           >
             {projectDropdownOpen ? "▲" : "▼"}
@@ -206,6 +210,7 @@ export function ProjectSection({
                 en: "-- No project --",
                 ja: "-- プロジェクトなし --",
                 zh: "-- 无项目 --",
+                th: "-- ไม่มีโปรเจกต์ --",
               })}
             </button>
             {projectsLoading ? (
@@ -215,6 +220,7 @@ export function ProjectSection({
                   en: "Loading projects...",
                   ja: "プロジェクトを読み込み中...",
                   zh: "正在加载项目...",
+                  th: "กำลังโหลดโปรเจกต์...",
                 })}
               </div>
             ) : filteredProjects.length === 0 ? (
@@ -225,6 +231,7 @@ export function ProjectSection({
                     en: "Create as a new project?",
                     ja: "新規プロジェクトとして作成しますか？",
                     zh: "要创建为新项目吗？",
+                    th: "สร้างเป็นโปรเจคต์ใหม่หรือไม่?",
                   })}
                 </p>
                 <button
@@ -235,7 +242,7 @@ export function ProjectSection({
                   }}
                   className="ml-auto shrink-0 rounded-md border border-emerald-500 bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-500"
                 >
-                  {t({ ko: "예", en: "Yes", ja: "はい", zh: "是" })}
+                  {t({ ko: "예", en: "Yes", ja: "はい", zh: "是", th: "ใช่" })}
                 </button>
               </div>
             ) : (
@@ -275,6 +282,7 @@ export function ProjectSection({
               en: "New project path",
               ja: "新規プロジェクトパス",
               zh: "新项目路径",
+              th: "เส้นทางโปรเจคต์ใหม่",
             })}
           </label>
           <input
@@ -296,6 +304,7 @@ export function ProjectSection({
                 en: "In-App Folder Browser",
                 ja: "アプリ内フォルダ閲覧",
                 zh: "应用内文件夹浏览",
+                th: "เบราว์เซอร์โฟลเดอร์ในแอป",
               })}
             </button>
             <button
@@ -310,8 +319,15 @@ export function ProjectSection({
                     en: "Close Auto Finder",
                     ja: "自動候補を閉じる",
                     zh: "关闭自动查找",
+                    th: "ปิดการค้นหาอัตโนมัติ",
                   })
-                : t({ ko: "자동 경로찾기", en: "Auto Path Finder", ja: "自動パス検索", zh: "自动路径查找" })}
+                : t({
+                    ko: "자동 경로찾기",
+                    en: "Auto Path Finder",
+                    ja: "自動パス検索",
+                    zh: "自动路径查找",
+                    th: "ค้นหาเส้นทางอัตโนมัติ",
+                  })}
             </button>
             <button
               type="button"
@@ -325,6 +341,7 @@ export function ProjectSection({
                     en: "Opening Manual Picker...",
                     ja: "手動パス選択を開いています...",
                     zh: "正在打开手动路径选择...",
+                    th: "กำลังเปิดเครื่องมือเลือกเส้นทางด้วยตนเอง...",
                   })
                 : nativePickerUnsupported
                   ? t({
@@ -332,12 +349,14 @@ export function ProjectSection({
                       en: "Manual Path Finder (Unavailable)",
                       ja: "手動パス選択（利用不可）",
                       zh: "手动路径选择（不可用）",
+                      th: "เครื่องมือเลือกเส้นทางด้วยตนเอง (ไม่สามารถใช้ได้)",
                     })
                   : t({
                       ko: "수동 경로찾기",
                       en: "Manual Path Finder",
                       ja: "手動パス選択",
                       zh: "手动路径选择",
+                      th: "เครื่องมือเลือกเส้นทางด้วยตนเอง",
                     })}
             </button>
           </div>
@@ -350,6 +369,7 @@ export function ProjectSection({
                     en: "Loading path suggestions...",
                     ja: "パス候補を読み込み中...",
                     zh: "正在加载路径候选...",
+                    th: "กำลังโหลดคำแนะนำเส้นทาง...",
                   })}
                 </p>
               ) : pathSuggestions.length === 0 ? (
@@ -359,6 +379,7 @@ export function ProjectSection({
                     en: "No suggested path. Enter one manually.",
                     ja: "候補パスがありません。手入力してください。",
                     zh: "没有推荐路径，请手动输入。",
+                    th: "ไม่มีเส้นทางที่แนะนำ กรุณาป้อนด้วยตนเอง",
                   })}
                 </p>
               ) : (
@@ -382,6 +403,7 @@ export function ProjectSection({
                 en: "This path does not exist yet. Creation confirmation will be requested.",
                 ja: "このパスはまだ存在しません。作成確認後に続行されます。",
                 zh: "该路径当前不存在，提交时会先请求创建确认。",
+                th: "เส้นทางนี้ยังไม่มีอยู่ จะขอยืนยันการสร้างก่อนดำเนินการ",
               })}
             </p>
           )}
@@ -391,6 +413,7 @@ export function ProjectSection({
               en: "Description will be saved as the new project core goal.",
               ja: "説明欄の内容が新規プロジェクトのコア目標として保存されます。",
               zh: "说明内容会保存为新项目的核心目标。",
+              th: "คำอธิบายจะถูกบันทึกเป็นเป้าหมายหลักของโปรเจคต์ใหม่",
             })}
           </p>
         </div>
@@ -403,6 +426,7 @@ export function ProjectSection({
             en: "No registered project. Create one first in Project Manager.",
             ja: "登録済みプロジェクトがありません。先にプロジェクト管理で作成してください。",
             zh: "暂无已注册项目。请先在项目管理中创建。",
+            th: "ไม่มีโปรเจคต์ที่ลงทะเบียนไว้ กรุณาสร้างในโปรแกรมจัดการโปรเจคต์ก่อน",
           })}
         </p>
       )}

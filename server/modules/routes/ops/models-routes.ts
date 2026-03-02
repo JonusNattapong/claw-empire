@@ -16,6 +16,7 @@ export function registerModelRoutes(ctx: RuntimeContext): void {
   const { app, db, exchangeCopilotToken, getPreferredOAuthAccounts, execWithTimeout } = ctx;
   let cachedModels = ctx.cachedModels;
   let cachedCliModels: { data: Record<string, CliModelInfoServer[]>; loadedAt: number } | null = null;
+  let cachedKiloModels: { data: any[]; loadedAt: number } | null = null;
 
   async function fetchCopilotModelsFromAPI(): Promise<string[]> {
     try {
@@ -307,6 +308,44 @@ export function registerModelRoutes(ctx: RuntimeContext): void {
       res.json({ models: merged });
     } catch (err) {
       res.status(500).json({ error: "model_fetch_failed", message: String(err) });
+    }
+  });
+
+  // Kilo models endpoint
+  app.get("/api/kilo/models", async (req, res) => {
+    const refresh = req.query.refresh === "true";
+
+    if (!refresh && cachedKiloModels && (Date.now() - cachedKiloModels.loadedAt) < 5 * 60 * 1000) {
+      return res.json({ models: cachedKiloModels.data });
+    }
+
+    try {
+      const response = await fetch("https://api.kilo.ai/api/gateway/models");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch Kilo models: ${response.status}`);
+      }
+      
+      const data = await response.json() as { data: any[] };
+      cachedKiloModels = { data: data.data || [], loadedAt: Date.now() };
+      
+      res.json({ models: cachedKiloModels.data });
+    } catch (err) {
+      res.status(500).json({ error: "kilo_models_fetch_failed", message: String(err) });
+    }
+  });
+
+  // Kilo providers endpoint
+  app.get("/api/kilo/providers", async (req, res) => {
+    try {
+      const response = await fetch("https://api.kilo.ai/api/gateway/providers");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch Kilo providers: ${response.status}`);
+      }
+      
+      const data = await response.json() as { data: any[] };
+      res.json({ providers: data.data || [] });
+    } catch (err) {
+      res.status(500).json({ error: "kilo_providers_fetch_failed", message: String(err) });
     }
   });
 }

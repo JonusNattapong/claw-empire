@@ -103,12 +103,13 @@ export default function DepartmentFormModal({
     } catch (e: any) {
       console.error("Dept save failed:", e);
       if (api.isApiRequestError(e) && e.code === "department_id_exists") {
-        alert(tr("이미 존재하는 부서 ID입니다.", "Department ID already exists."));
+        alert(tr("이미 존재하는 부서 ID입니다.", "Department ID already exists.", "รหัสแผนกนี้มีอยู่แล้ว"));
       } else if (api.isApiRequestError(e) && e.code === "sort_order_conflict") {
         alert(
           tr(
             "부서 정렬 순서가 충돌합니다. 잠시 후 다시 시도해주세요.",
             "Department sort order conflict. Please retry.",
+            "ลำดับการจัดเรียงแผนกขัดแย้งกัน กรุณาลองใหม่อีกครั้ง",
           ),
         );
       }
@@ -126,11 +127,29 @@ export default function DepartmentFormModal({
     } catch (e: any) {
       console.error("Dept delete failed:", e);
       if (api.isApiRequestError(e) && e.code === "department_has_agents") {
-        alert(tr("소속 직원이 있어 삭제할 수 없습니다.", "Cannot delete: department has agents."));
+        alert(
+          tr(
+            "소속 직원이 있어 삭제할 수 없습니다.",
+            "Cannot delete: department has agents.",
+            "ไม่สามารถลบได้: แผนกมีสมาชิก",
+          ),
+        );
       } else if (api.isApiRequestError(e) && e.code === "department_has_tasks") {
-        alert(tr("연결된 업무(Task)가 있어 삭제할 수 없습니다.", "Cannot delete: department has tasks."));
+        alert(
+          tr(
+            "연결된 업무(Task)가 있어 삭제할 수 없습니다.",
+            "Cannot delete: department has tasks.",
+            "ไม่สามารถลบได้: แผนกมีงานที่เชื่อมโยง",
+          ),
+        );
       } else if (api.isApiRequestError(e) && e.code === "department_protected") {
-        alert(tr("기본 시스템 부서는 삭제할 수 없습니다.", "Cannot delete: protected system department."));
+        alert(
+          tr(
+            "기본 시스템 부서는 삭제할 수 없습니다.",
+            "Cannot delete: protected system department.",
+            "ไม่สามารถลบได้: แผนกระบบที่ได้รับการปกป้อง",
+          ),
+        );
       }
     } finally {
       setSaving(false);
@@ -166,7 +185,9 @@ export default function DepartmentFormModal({
         <div className="flex items-center justify-between mb-5">
           <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--th-text-heading)" }}>
             <span className="text-lg">{form.icon}</span>
-            {isEdit ? tr("부서 정보 수정", "Edit Department") : tr("신규 부서 추가", "Add Department")}
+            {isEdit
+              ? tr("부서 정보 수정", "Edit Department", "แก้ไขข้อมูลแผนก")
+              : tr("신규 부서 추가", "Add Department", "เพิ่มแผนกใหม่")}
           </h3>
           <button
             onClick={onClose}
@@ -182,13 +203,13 @@ export default function DepartmentFormModal({
           <div className="flex items-start gap-3">
             <div>
               <label className="block text-xs mb-1.5 font-medium" style={{ color: "var(--th-text-secondary)" }}>
-                {tr("아이콘", "Icon")}
+                {tr("아이콘", "Icon", "ไอคอน")}
               </label>
               <EmojiPicker value={form.icon} onChange={(emoji) => setForm({ ...form, icon: emoji })} />
             </div>
             <div className="flex-1">
               <label className="block text-xs mb-1.5 font-medium" style={{ color: "var(--th-text-secondary)" }}>
-                {tr("영문 이름", "Name")} <span className="text-red-400">*</span>
+                {tr("영문 이름", "Name", "ชื่อภาษาอังกฤษ")} <span className="text-red-400">*</span>
               </label>
               <input
                 type="text"
@@ -204,7 +225,7 @@ export default function DepartmentFormModal({
           {/* 색상 선택 */}
           <div>
             <label className="block text-xs mb-1.5 font-medium" style={{ color: "var(--th-text-secondary)" }}>
-              {tr("테마 색상", "Theme Color")}
+              {tr("테마 색상", "Theme Color", "สีธีม")}
             </label>
             <div className="flex gap-2">
               {DEPT_COLORS.map((c) => (
@@ -227,7 +248,7 @@ export default function DepartmentFormModal({
           {locale.startsWith("ko") && (
             <div>
               <label className="block text-xs mb-1.5 font-medium" style={{ color: "var(--th-text-secondary)" }}>
-                {tr("한글 이름", "Korean Name")}
+                {tr("한글 이름", "Korean Name", "ชื่อภาษาเกาหลี")}
               </label>
               <input
                 type="text"
@@ -242,7 +263,7 @@ export default function DepartmentFormModal({
           {locale.startsWith("ja") && (
             <div>
               <label className="block text-xs mb-1.5 font-medium" style={{ color: "var(--th-text-secondary)" }}>
-                {t({ ko: "일본어 이름", en: "Japanese Name", ja: "日本語名", zh: "日语名" })}
+                {t({ ko: "일본어 이름", en: "Japanese Name", ja: "日本語名", zh: "日语名", th: "ชื่อภาษาญี่ปุ่น" })}
               </label>
               <input
                 type="text"
@@ -257,7 +278,7 @@ export default function DepartmentFormModal({
           {locale.startsWith("zh") && (
             <div>
               <label className="block text-xs mb-1.5 font-medium" style={{ color: "var(--th-text-secondary)" }}>
-                {t({ ko: "중국어 이름", en: "Chinese Name", ja: "中国語名", zh: "中文名" })}
+                {t({ ko: "중국어 이름", en: "Chinese Name", ja: "中国語名", zh: "中文名", th: "ชื่อภาษาจีน" })}
               </label>
               <input
                 type="text"
@@ -273,13 +294,17 @@ export default function DepartmentFormModal({
           {/* 설명 */}
           <div>
             <label className="block text-xs mb-1.5 font-medium" style={{ color: "var(--th-text-secondary)" }}>
-              {tr("부서 설명", "Description")}
+              {tr("부서 설명", "Description", "คำอธิบายแผนก")}
             </label>
             <input
               type="text"
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
-              placeholder={tr("부서의 역할 간단 설명", "Brief description of the department")}
+              placeholder={tr(
+                "부서의 역할 간단 설명",
+                "Brief description of the department",
+                "คำอธิบายโดยย่อเกี่ยวกับบทบาทของแผนก",
+              )}
               className={inputCls}
               style={inputStyle}
             />
@@ -288,7 +313,7 @@ export default function DepartmentFormModal({
           {/* 프롬프트 */}
           <div>
             <label className="block text-xs mb-1.5 font-medium" style={{ color: "var(--th-text-secondary)" }}>
-              {tr("부서 프롬프트", "Department Prompt")}
+              {tr("부서 프롬프트", "Department Prompt", "พรอมต์แผนก")}
             </label>
             <textarea
               value={form.prompt}
@@ -297,6 +322,7 @@ export default function DepartmentFormModal({
               placeholder={tr(
                 "이 부서 소속 에이전트의 공통 시스템 프롬프트...",
                 "Shared system prompt for agents in this department...",
+                "พรอมต์ระบบร่วมสำหรับเอเจนต์ในแผนกนี้...",
               )}
               className={`${inputCls} resize-none`}
               style={inputStyle}
@@ -305,6 +331,7 @@ export default function DepartmentFormModal({
               {tr(
                 "소속 에이전트의 작업 실행 시 공통으로 적용되는 시스템 프롬프트",
                 "Applied as shared system prompt when agents in this department execute tasks",
+                "ใช้เป็นพรอมต์ระบบร่วมเมื่อเอเจนต์ในแผนกนี้ดำเนินการงาน",
               )}
             </p>
           </div>
@@ -318,10 +345,10 @@ export default function DepartmentFormModal({
             className="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white disabled:opacity-40 shadow-sm shadow-blue-600/20"
           >
             {saving
-              ? tr("처리 중...", "Saving...")
+              ? tr("처리 중...", "Saving...", "กำลังบันทึก...")
               : isEdit
-                ? tr("변경사항 저장", "Save Changes")
-                : tr("부서 추가", "Add Department")}
+                ? tr("변경사항 저장", "Save Changes", "บันทึกการเปลี่ยนแปลง")
+                : tr("부서 추가", "Add Department", "เพิ่มแผนก")}
           </button>
           {isEdit &&
             (confirmDelete ? (
@@ -331,14 +358,14 @@ export default function DepartmentFormModal({
                   disabled={saving}
                   className="px-3 py-2.5 rounded-lg text-xs font-medium bg-red-600 hover:bg-red-500 text-white disabled:opacity-40 transition-colors"
                 >
-                  {tr("삭제 확인", "Confirm")}
+                  {tr("삭제 확인", "Confirm", "ยืนยันการลบ")}
                 </button>
                 <button
                   onClick={() => setConfirmDelete(false)}
                   className="px-2 py-2.5 rounded-lg text-xs transition-colors"
                   style={{ color: "var(--th-text-muted)" }}
                 >
-                  {tr("취소", "No")}
+                  {tr("취소", "No", "ไม่")}
                 </button>
               </div>
             ) : (
@@ -347,7 +374,7 @@ export default function DepartmentFormModal({
                 className="px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-red-500/15 hover:text-red-400"
                 style={{ border: "1px solid var(--th-input-border)", color: "var(--th-text-muted)" }}
               >
-                {tr("삭제", "Delete")}
+                {tr("삭제", "Delete", "ลบ")}
               </button>
             ))}
           <button
@@ -355,7 +382,7 @@ export default function DepartmentFormModal({
             className="px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-[var(--th-bg-surface-hover)]"
             style={{ border: "1px solid var(--th-input-border)", color: "var(--th-text-secondary)" }}
           >
-            {tr("취소", "Cancel")}
+            {tr("취소", "Cancel", "ยกเลิก")}
           </button>
         </div>
       </div>

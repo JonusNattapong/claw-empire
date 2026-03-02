@@ -38,6 +38,7 @@ export type TaskRunRouteDeps = Pick<
   | "notifyCeo"
   | "startProgressTimer"
   | "launchApiProviderAgent"
+  | "launchKiloAgent"
   | "launchHttpAgent"
   | "spawnCliAgent"
   | "handleTaskRunComplete"
@@ -74,6 +75,7 @@ export function registerTaskRunRoute(deps: TaskRunRouteDeps): void {
     notifyCeo,
     startProgressTimer,
     launchApiProviderAgent,
+    launchKiloAgent,
     launchHttpAgent,
     spawnCliAgent,
     handleTaskRunComplete,
@@ -178,7 +180,7 @@ export function registerTaskRunRoute(deps: TaskRunRouteDeps): void {
     }
 
     const provider = agent.cli_provider || "claude";
-    if (!["claude", "codex", "gemini", "opencode", "copilot", "antigravity", "api"].includes(provider)) {
+    if (!["claude", "codex", "gemini", "opencode", "copilot", "antigravity", "api", "kilo"].includes(provider)) {
       return res.status(400).json({ error: "unsupported_provider", provider });
     }
     const executionSession = ensureTaskExecutionSession(id, agentId, provider);
@@ -427,7 +429,7 @@ Whenever you complete a subtask, report it in this format:
       return res.json({ ok: true, pid: fakePid, logPath, cwd: agentCwd, worktree: !!worktreePath });
     }
 
-    if (provider === "copilot" || provider === "antigravity") {
+    if (provider === "copilot" || provider === "antigravity" || provider === "kilo") {
       const controller = new AbortController();
       const fakePid = getNextHttpAgentPid();
 
@@ -473,7 +475,11 @@ Whenever you complete a subtask, report it in this format:
         | undefined;
       startProgressTimer(id, task.title, taskRow?.department_id ?? null);
 
-      launchHttpAgent(id, provider, prompt, agentCwd, logPath, controller, fakePid, agent.oauth_account_id ?? null);
+      if (provider === "kilo") {
+        launchKiloAgent(agent, task, mainModel);
+      } else {
+        launchHttpAgent(id, provider, prompt, agentCwd, logPath, controller, fakePid, agent.oauth_account_id ?? null);
+      }
       return res.json({ ok: true, pid: fakePid, logPath, cwd: agentCwd, worktree: !!worktreePath });
     }
 

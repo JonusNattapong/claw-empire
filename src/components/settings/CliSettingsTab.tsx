@@ -18,10 +18,10 @@ export default function CliSettingsTab({
     >
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--th-text-primary)" }}>
-          {t({ ko: "CLI 도구 상태", en: "CLI Tool Status", ja: "CLI ツール状態", zh: "CLI 工具状态" })}
+          {t({ ko: "CLI 도구 상태", en: "CLI Tool Status", ja: "CLI ツール状態", zh: "CLI 工具状态", th: "สถานะเครื่องมือ CLI" })}
         </h3>
         <button onClick={onRefresh} className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
-          🔄 {t({ ko: "새로고침", en: "Refresh", ja: "更新", zh: "刷新" })}
+          🔄 {t({ ko: "새로고침", en: "Refresh", ja: "更新", zh: "刷新", th: "รีเฟรช" })}
         </button>
       </div>
 
@@ -56,8 +56,9 @@ export default function CliSettingsTab({
                                 en: "Version unknown",
                                 ja: "バージョン不明",
                                 zh: "版本未知",
+                                th: "ไม่ทราบเวอร์ชัน",
                               })
-                            : t({ ko: "미설치", en: "Not installed", ja: "未インストール", zh: "未安装" }))}
+                            : t({ ko: "미설치", en: "Not installed", ja: "未インストール", zh: "未安装", th: "ไม่ได้ติดตั้ง" }))}
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -67,8 +68,8 @@ export default function CliSettingsTab({
                         }`}
                       >
                         {status.installed
-                          ? t({ ko: "설치됨", en: "Installed", ja: "インストール済み", zh: "已安装" })
-                          : t({ ko: "미설치", en: "Not installed", ja: "未インストール", zh: "未安装" })}
+                          ? t({ ko: "설치됨", en: "Installed", ja: "インストール済み", zh: "已安装", th: "ติดตั้งแล้ว" })
+                          : t({ ko: "미설치", en: "Not installed", ja: "未インストール", zh: "未安装", th: "ไม่ได้ติดตั้ง" })}
                       </span>
                       {status.installed && (
                         <span
@@ -77,8 +78,8 @@ export default function CliSettingsTab({
                           }`}
                         >
                           {status.authenticated
-                            ? t({ ko: "인증됨", en: "Authenticated", ja: "認証済み", zh: "已认证" })
-                            : t({ ko: "미인증", en: "Not Authenticated", ja: "未認証", zh: "未认证" })}
+                            ? t({ ko: "인증됨", en: "Authenticated", ja: "認証済み", zh: "已认证", th: "ได้รับการตรวจสอบแล้ว" })
+                            : t({ ko: "미인증", en: "Not Authenticated", ja: "未認証", zh: "未认证", th: "ยังไม่ได้ตรวจสอบ" })}
                         </span>
                       )}
                     </div>

@@ -19,7 +19,7 @@ export default function DecisionInboxModal({
   onReplyOption,
   onOpenChat,
 }: DecisionInboxModalProps) {
-  const t = (text: { ko: string; en: string; ja?: string; zh?: string }) => pickLang(uiLanguage, text);
+  const t = (text: { ko: string; en: string; ja?: string; zh?: string; th?: string }) => pickLang(uiLanguage, text);
   const isKorean = uiLanguage.startsWith("ko");
   const spriteMap = useMemo(() => buildSpriteMap(agents), [agents]);
   const agentById = useMemo(() => {
@@ -188,20 +188,21 @@ export default function DecisionInboxModal({
 
   const getKindLabel = (kind: DecisionInboxItem["kind"]) => {
     if (kind === "project_review_ready") {
-      return t({ ko: "프로젝트 의사결정", en: "Project Decision", ja: "プロジェクト判断", zh: "项目决策" });
+      return t({ ko: "프로젝트 의사결정", en: "Project Decision", ja: "プロジェクト判断", zh: "项目决策", th: "การตัดสินใจโปรเจคต์" });
     }
     if (kind === "task_timeout_resume") {
-      return t({ ko: "중단 작업 재개", en: "Timeout Resume", ja: "中断タスク再開", zh: "超时任务续跑" });
+      return t({ ko: "중단 작업 재개", en: "Timeout Resume", ja: "中断タスク再開", zh: "超时任务续跑", th: "ทำงานต่อเมื่อหมดเวลา" });
     }
     if (kind === "review_round_pick") {
       return t({
-        ko: "리뷰 라운드 의사결정",
-        en: "Review Round Decision",
-        ja: "レビューラウンド判断",
+        ko: "검토 라운드 선택",
+        en: "Review Round Pick",
+        ja: "レビューラウンド選択",
         zh: "评审轮次决策",
+        th: "เลือกรอบการตรวจสอบ",
       });
     }
-    return t({ ko: "에이전트 요청", en: "Agent Request", ja: "エージェント要請", zh: "代理请求" });
+    return t({ ko: "에이전트 요청", en: "Agent Request", ja: "エージェント要請", zh: "代理请求", th: "คำขอจากเอเจนต์" });
   };
   const getKindAvatarFallback = (kind: DecisionInboxItem["kind"]) => {
     if (kind === "project_review_ready") return "🧑‍💼";
@@ -222,7 +223,7 @@ export default function DecisionInboxModal({
           <div className="flex items-center gap-3">
             <span className="text-2xl">🧭</span>
             <h2 className="text-lg font-bold text-white">
-              {t({ ko: "미결 의사결정", en: "Pending Decisions", ja: "未決の意思決定", zh: "待处理决策" })}
+              {t({ ko: "미결 의사결정", en: "Pending Decisions", ja: "未決の意思決定", zh: "待处理决策", th: "การตัดสินใจที่รอดำเนินการ" })}
             </h2>
             <span className="rounded-full bg-indigo-500/20 px-2 py-0.5 text-xs font-medium text-indigo-300">
               {items.length}
@@ -233,7 +234,7 @@ export default function DecisionInboxModal({
               onClick={onRefresh}
               className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-300 transition hover:bg-slate-800 hover:text-white"
             >
-              {t({ ko: "새로고침", en: "Refresh", ja: "更新", zh: "刷新" })}
+              {t({ ko: "새로고침", en: "Refresh", ja: "更新", zh: "刷新", th: "รีเฟรช" })}
             </button>
             <button
               onClick={onClose}
@@ -299,7 +300,7 @@ export default function DecisionInboxModal({
                         onClick={() => onOpenChat(item.agentId!)}
                         className="rounded-md border border-slate-600 px-2 py-1 text-[11px] text-slate-300 transition hover:border-slate-400 hover:bg-slate-700 hover:text-white"
                       >
-                        {t({ ko: "채팅 열기", en: "Open Chat", ja: "チャットを開く", zh: "打开聊天" })}
+                        {t({ ko: "채팅 열기", en: "Open Chat", ja: "チャットを開く", zh: "打开聊天", th: "เปิดแชท" })}
                       </button>
                     ) : null}
                   </div>
@@ -374,7 +375,7 @@ export default function DecisionInboxModal({
                                   className="decision-round-skip rounded-md px-3 py-1.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
                                 >
                                   {isItemBusy
-                                    ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中..." })
+                                    ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中...", th: "กำลังส่ง..." })
                                     : `${skipOption.number}. ${skipOption.label}`}
                                 </button>
                               ) : null}
@@ -385,12 +386,13 @@ export default function DecisionInboxModal({
                                 className="decision-round-submit rounded-md px-3 py-1.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
                               >
                                 {isItemBusy
-                                  ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中..." })
+                                  ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中...", th: "กำลังส่ง..." })
                                   : t({
                                       ko: "선택 항목 진행",
                                       en: "Run Selected",
-                                      ja: "選択項目で進行",
-                                      zh: "按所选项执行",
+                                      ja: "選択項目を実行",
+                                      zh: "运行选中项",
+                                      th: "ดำเนินการรายการที่เลือก",
                                     })}
                               </button>
                             </div>
@@ -410,7 +412,7 @@ export default function DecisionInboxModal({
                             className="decision-inbox-option w-full rounded-md px-2.5 py-1.5 text-left text-xs transition disabled:cursor-not-allowed disabled:opacity-60"
                           >
                             {isBusy
-                              ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中..." })
+                              ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中...", th: "กำลังส่ง..." })
                               : `${option.number}. ${option.label}`}
                           </button>
                         );
@@ -467,7 +469,7 @@ export default function DecisionInboxModal({
                 disabled={isFollowupSubmitting}
                 className="rounded-md border border-slate-600 px-3 py-1.5 text-xs text-slate-300 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {t({ ko: "취소", en: "Cancel", ja: "キャンセル", zh: "取消" })}
+                {t({ ko: "취소", en: "Cancel", ja: "キャンセル", zh: "取消", th: "ยกเลิก" })}
               </button>
               <button
                 type="button"
@@ -476,8 +478,8 @@ export default function DecisionInboxModal({
                 className="decision-followup-submit rounded-md px-3 py-1.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isFollowupSubmitting
-                  ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中..." })
-                  : t({ ko: "요청 등록", en: "Submit Request", ja: "要請登録", zh: "提交请求" })}
+                  ? t({ ko: "전송 중...", en: "Sending...", ja: "送信中...", zh: "发送中...", th: "กำลังส่ง..." })
+                  : t({ ko: "요청 등록", en: "Submit Request", ja: "要請登録", zh: "提交请求", th: "ส่งคำขอ" })}
               </button>
             </div>
           </div>

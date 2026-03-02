@@ -175,30 +175,35 @@ export function createReplyCoreTools(deps: CreateReplyCoreToolsDeps) {
         if (lang === "en") return `${name}: Kickoff noted. Please share concise feedback in order.`;
         if (lang === "ja") return `${name}: キックオフを開始します。順番に簡潔なフィードバックを共有してください。`;
         if (lang === "zh") return `${name}: 现在开始会议，请各位按顺序简要反馈。`;
+        if (lang === "th") return `${name}: เริ่มประชุมแล้ว กรุณาแสดงความคิดเห็นอย่างกระชับตามลำดับ`;
         return `${name}: 킥오프 회의를 시작합니다. 순서대로 핵심 피드백을 간단히 공유해주세요.`;
       case "feedback":
         if (lang === "en")
           return `${name}: We have identified key gaps and a top-priority validation item before execution.`;
         if (lang === "ja") return `${name}: 着手前の補完項目と最優先の検証課題を確認しました。`;
         if (lang === "zh") return `${name}: 已确认执行前的补充项与最高优先验证课题。`;
+        if (lang === "th") return `${name}: ได้ระบุข้อที่ต้องปรับปรุงและข้อที่ต้องตรวจสอบก่อนดำเนินการ`;
         return `${name}: 착수 전 보완 항목과 최우선 검증 과제를 확인했습니다.`;
       case "summary":
         if (lang === "en")
           return `${name}: I will consolidate all leader feedback and proceed with the agreed next step.`;
         if (lang === "ja") return `${name}: 各チームリーダーの意見を統合し、合意した次のステップへ進めます。`;
         if (lang === "zh") return `${name}: 我将汇总各负责人意见，并按约定进入下一步。`;
+        if (lang === "th") return `${name}: จะรวบรวมความเห็นจากหัวหน้างานทุกคนและดำเนินการตามขั้นตอนถัดไปที่ตกลงกัน`;
         return `${name}: 각 팀장 의견을 취합해 합의된 다음 단계로 진행하겠습니다.`;
       case "approval":
         if (lang === "en")
           return `${name}: Decision noted. We will proceed according to the current meeting conclusion.`;
         if (lang === "ja") return `${name}: 本会議の結論に従って進行します。`;
         if (lang === "zh") return `${name}: 已确认决策，将按本轮会议结论执行。`;
+        if (lang === "th") return `${name}: รับทราบการตัดสินใจ จะดำเนินการตามข้อสรุปของการประชุมนี้`;
         return `${name}: 본 회의 결론에 따라 진행하겠습니다.`;
       case "direct":
       default:
         if (lang === "en") return `${name}: Acknowledged. Proceeding with the requested direction.`;
         if (lang === "ja") return `${name}: 承知しました。ご指示の方向で進めます。`;
         if (lang === "zh") return `${name}: 收到，将按您的指示推进。`;
+        if (lang === "th") return `${name}: รับทราบ จะดำเนินการตามที่แนะนำ`;
         return `${name}: 확인했습니다. 요청하신 방향으로 진행하겠습니다.`;
     }
   }
@@ -206,9 +211,18 @@ export function createReplyCoreTools(deps: CreateReplyCoreToolsDeps) {
   function buildAgentReplyText(
     lang: string,
     agent: AgentRow | undefined,
-    messages: { ko: string; en: string; ja: string; zh: string },
+    messages: { ko: string; en: string; ja: string; zh: string; th: string },
   ): string {
-    const body = lang === "en" ? messages.en : lang === "ja" ? messages.ja : lang === "zh" ? messages.zh : messages.ko;
+    const body =
+      lang === "en"
+        ? messages.en
+        : lang === "ja"
+          ? messages.ja
+          : lang === "zh"
+            ? messages.zh
+            : lang === "th"
+              ? messages.th
+              : messages.ko;
     const name = agent ? getAgentDisplayName(agent, lang) : "";
     return name ? `${name}: ${body}` : body;
   }
@@ -298,7 +312,32 @@ export function createReplyCoreTools(deps: CreateReplyCoreToolsDeps) {
       en: `CLI execution failed${suffix}.`,
       ja: `CLI 実行中にエラーが発生しました${suffix}。`,
       zh: `CLI 执行失败${suffix}。`,
+      th: `การทำงาน CLI ล้มเหลว${suffix}.`,
     });
+  }
+
+  function chooseSafeReply(run: OneShotRunResult, lang: string, kind: ReplyKind, agent?: AgentRow): string {
+    const maxReplyChars = kind === "direct" ? 12000 : 2000;
+    const rawText = run.text || "";
+    const failureKind = detectRunFailure(rawText, run.error);
+    if (failureKind) {
+      const detail = failureKind === "generic" ? extractRunFailureDetail(rawText, run.error) : "";
+      return buildRunFailureReply(failureKind, lang, agent, detail);
+    }
+    const cleaned = normalizeConversationReply(rawText, maxReplyChars, { maxSentences: 0 });
+    if (!cleaned) return fallbackTurnReply(kind, lang, agent);
+    if (/timeout after|CLI 응답 생성에 실패|response failed|one-shot-error/i.test(cleaned)) {
+      return fallbackTurnReply(kind, lang, agent);
+    }
+    if (isInternalWorkNarration(cleaned)) return fallbackTurnReply(kind, lang, agent);
+    if (
+      (lang === "ko" || lang === "ja" || lang === "zh" || lang === "th") &&
+      detectLang(cleaned) === "en" &&
+      cleaned.length > 20
+    ) {
+      return fallbackTurnReply(kind, lang, agent);
+    }
+    return cleaned;
   }
 
   function chooseSafeReply(run: OneShotRunResult, lang: string, kind: ReplyKind, agent?: AgentRow): string {

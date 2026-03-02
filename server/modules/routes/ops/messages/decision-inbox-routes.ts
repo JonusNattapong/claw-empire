@@ -206,14 +206,15 @@ export function registerDecisionInboxRoutes(ctx: RuntimeContext): DecisionInboxR
   const DECISION_REPLY_MARKER_RE = /\[(의사결정\s*회신|decision\s*reply|意思決定返信|决策回复)\]/i;
   const DECISION_TOKEN_RE = /\[DECISION:([A-Za-z0-9_-]{6,128})\]/i;
   const DECISION_APPROVE_WORD_RE =
-    /^(승인|진행|go|ok|okay|yes|yep|approve|approved|확인|동의|承認|進行|はい|同意|通过|批准|好的|可以|行)$/i;
+    /^(승인|진행|go|ok|okay|yes|yep|approve|approved|확인|동의|承認|進行|はい|同意|通过|批准|好的|可以|行|อนุมัติ|ตกลง|เรียบร้อย|โอเค|OK)$/i;
   const DECISION_NOTE_RE = /(?:추가\s*(?:코멘트|의견|메모)|note|비고|备注)\s*[:：]\s*(.+)$/i;
 
-  function pickDecisionL10n(ko: string, en: string, ja: string, zh: string): string {
+  function pickDecisionL10n(ko: string, en: string, ja: string, zh: string, th: string): string {
     const lang = getPreferredLanguage();
     if (lang === "en") return en;
     if (lang === "ja") return ja;
     if (lang === "zh") return zh;
+    if (lang === "th") return th;
     return ko;
   }
 
@@ -540,6 +541,8 @@ export function registerDecisionInboxRoutes(ctx: RuntimeContext): DecisionInboxR
       return normalizeTextField(item.agent_name) || normalizeTextField(item.agent_name_ko) || "企画リード";
     if (lang === "zh")
       return normalizeTextField(item.agent_name) || normalizeTextField(item.agent_name_ko) || "企划组长";
+    if (lang === "th")
+      return normalizeTextField(item.agent_name) || normalizeTextField(item.agent_name_ko) || "หัวหน้าฝ่ายวางแผน";
     return normalizeTextField(item.agent_name_ko) || normalizeTextField(item.agent_name) || "기획팀장";
   }
 

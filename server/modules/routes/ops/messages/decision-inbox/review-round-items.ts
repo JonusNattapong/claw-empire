@@ -56,7 +56,8 @@ export function createReviewRoundDecisionItems(deps: ReviewRoundDecisionItemDeps
 
   function buildReviewRoundDecisionItems(): ReviewRoundDecisionItem[] {
     const lang = getPreferredLanguage();
-    const t = (ko: string, en: string, ja: string, zh: string) => pickL(l([ko], [en], [ja], [zh]), lang);
+    const t = (ko: string, en: string, ja: string, zh: string, th: string) =>
+      pickL(l([ko], [en], [ja], [zh], [th]), lang);
     const rows = db
       .prepare(
         `

@@ -4,11 +4,11 @@ import type { DeptForm, FormData } from "./types";
 export const ROLES: AgentRole[] = ["team_leader", "senior", "junior", "intern"];
 export const CLI_PROVIDERS: CliProvider[] = ["claude", "codex", "gemini", "opencode", "copilot", "antigravity", "api"];
 
-export const ROLE_LABEL: Record<string, { ko: string; en: string }> = {
-  team_leader: { ko: "팀장", en: "Leader" },
-  senior: { ko: "시니어", en: "Senior" },
-  junior: { ko: "주니어", en: "Junior" },
-  intern: { ko: "인턴", en: "Intern" },
+export const ROLE_LABEL: Record<string, { ko: string; en: string; th: string }> = {
+  team_leader: { ko: "팀장", en: "Leader", th: "หัวหน้าทีม" },
+  senior: { ko: "시니어", en: "Senior", th: "ซีเนียร์" },
+  junior: { ko: "주니어", en: "Junior", th: "จูเนียร์" },
+  intern: { ko: "인턴", en: "Intern", th: "ฝึกงาน" },
 };
 
 export const ROLE_BADGE: Record<string, string> = {
@@ -55,6 +55,7 @@ export const BLANK: FormData = {
   name_ko: "",
   name_ja: "",
   name_zh: "",
+  name_th: "",
   department_id: "",
   role: "junior",
   cli_provider: "claude",
@@ -81,6 +82,7 @@ export const DEPT_BLANK: DeptForm = {
   name_ko: "",
   name_ja: "",
   name_zh: "",
+  name_th: "",
   icon: "📁",
   color: "#3b82f6",
   description: "",
